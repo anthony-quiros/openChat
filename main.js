@@ -5,19 +5,15 @@ var io = require('socket.io')(server);
 var session = require("cookie-session");
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser');
-var listOfalias= new Array();
 var db = require('db');
 
 app.use(cookieParser())
-.use(session({secret: 'todotopsecret'}))
-.use(bodyParser());
+	.use(session({secret: 'todotopsecret'}))
+	.use(bodyParser())
+;
 
 io.sockets.on('connection', function (socket) {
-	db.addUser('salut', 'mon', 'toto');
-	var getUserEvent = db.getUser("aquiros", "aquiros");
-	getUserEvent.on('success', function(result){console.log(result)});
     console.log('Un client est connecté !');
-    socket.emit("alias", "Alias please ?");
 
 	socket.on('message', function (message) {
 		socket.broadcast.emit('message', "message from " + socket.handshake.address +": " + message);
@@ -95,13 +91,31 @@ var chat = function(request, result){
 	result.render("chat.ejs");
 };
 
+function getUser(request, result) {
+	var globalresult = result;
+	var getUserEvent = db.getUser(request.params.alias, request.params.alias);
+	getUserEvent.on('success', 
+		function(res) {
+			console.log(res);
+			globalresult.send(JSON.stringify(res));
+		}
+	);
+	getUserEvent.on('error', 
+		function(error) {
+			console.log(error);
+			globalresult.send(JSON.stringify(error));
+		}
+	);
+}
+
 app.use(createList)
 .get("/", index)
 .get("/addUser/:alias/:password", withParams)
+.get("/getUser/:alias/:password", getUser)
 .post("/list", addElementToList)
 .get("/list", showList)
 .get("/list/delete/:id", deleteElementToList)
 .get("/chat", chat)
 .use(notExist);
-server.listen(80);
+server.listen(8080);
 
