@@ -1,0 +1,55 @@
+body {
+	background-color: #95988A;
+}
+
+#header {
+	width: 999px;
+	margin: auto;
+	text-align: center;
+}
+#content {
+	width: 999px;
+	margin: auto;
+	min-height: 600px;
+	background-color: #EFF2F4; 
+	padding: 50px;
+}
+
+#listOfMessages {
+	min-height: 500px;
+	height: 500px;
+	border: solid 2px black;
+	overflow-y: scroll;
+}
+
+#write {
+	height: 100px;
+	margin-top: 10px;
+	border: solid 2px black;
+}
+
+#input {
+	display: block;
+	min-width: 900px;
+	width: 900px;
+	background-color: #FFFFFF;
+	float: left;
+}
+#input textarea {
+	height: 76px;
+	width: 866px;
+	border: none;
+	resize: none;
+	padding: 10px;
+	outline: none;
+}
+
+#sendMessage {
+	padding: 32px 25px 9px 25px;
+	height: 34px;
+	float: left;
+	border: solid 2px;
+	margin-top: 12px;
+	margin-left: 5px;
+	cursor: pointer;
+}
