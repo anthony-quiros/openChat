@@ -1,6 +1,6 @@
 var express = require("express");
 var app = express();
-var server = require('http').Server(app);
+var server = require('http').Server(app); 
 var io = require('socket.io')(server);
 var session = require("cookie-session");
 var cookieParser = require('cookie-parser')
@@ -96,7 +96,6 @@ function getUser(request, result) {
 	var getUserEvent = db.getUser(request.params.alias, request.params.alias);
 	getUserEvent.on('success', 
 		function(res) {
-			console.log(res);
 			globalresult.send(JSON.stringify(res));
 		}
 	);
@@ -107,15 +106,77 @@ function getUser(request, result) {
 		}
 	);
 }
+function connectDisplay(request, result) {
+	if(null == request.session.alias) {
+		result.setHeader("Content-Type", "text/html");
+		result.render("connect.ejs");
+	} else {
+		result.redirect("/");
+	}
+}
 
-app.use(createList)
+function connectPost(request, result) {
+	var alias = request.body.alias;
+	var password = request.body.password;
+	if(alias && password) {
+		var getUserEvent = db.getUser(alias, password);
+		getUserEvent.on("success", 
+			function(queryResult) {
+				var path = request.session.pathWanted;
+				request.session.pathWanted = null;
+				console.log("PATH : ", path);
+				request.session.alias = queryResult.alias;
+				console.log("alias 1: ", request.session.alias);
+				result.redirect("/");
+			}
+		);
+		getUserEvent.on("error", 
+			function(result) {
+				var path = request.session.pathWanted;
+				request.session.pathWanted = null;
+				result.redirect(path);
+			}
+		);
+	} else {
+		result.redirect("/connect");
+	}
+	if(null == request.session.alias) {
+		result.setHeader("Content-Type", "text/html");
+		result.render("connect.ejs");
+	} else {
+		result.redirect("/");
+	}
+}
+
+/*function initPathWanted(request, result, next) {
+	if(!request.session.pathWanted) {
+		request.session.pathWanted = request.path;
+	}
+	next();
+};*/
+
+function isConect(request, result, next) {
+	console.log("alias : ", request.session.alias);
+	if(typeof request.session.alias === 'undefined' || null == request.session.alias) {
+		request.session.pathWanted =request.path;
+		result.redirect("/connect");
+	} else {
+		next();
+	}
+}
+function adminChat(request, result) {
+
+}
+
+app.get("/connect", connectDisplay)
+.post("/connect", connectPost)
+.use(isConect)
 .get("/", index)
-.get("/addUser/:alias/:password", withParams)
-.get("/getUser/:alias/:password", getUser)
+/*.get("/addUser/:alias/:password", withParams)
+.get("/getUser/:alias/:password", getUser)*/
 .post("/list", addElementToList)
 .get("/list", showList)
 .get("/list/delete/:id", deleteElementToList)
-.get("/chat", chat)
-.use(notExist);
-server.listen(8080);
+.get("/chat", chat);
+server.listen(80);
 
