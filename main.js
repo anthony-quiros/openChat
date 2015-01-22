@@ -5,40 +5,40 @@ var io = require('socket.io')(server);
 var session = require("cookie-session");
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser');
-var db = require('db');
+var listOfAlias = new Array();
 
 app.use(cookieParser())
 	.use(session({secret: 'todotopsecret'}))
 	.use(bodyParser())
 ;
+function addAlias(){
+	socket.emit("alias", "Sign in");
+};
 
-io.sockets.on('connection', function (socket) {
-    console.log('Un client est connecté !');
+function getAlias(alias) {
+	socket.alias = alias;
+};
 
-	socket.on('message', function (message) {
-		socket.broadcast.emit('message', "message from " + socket.handshake.address +": " + message);
-	});
-
-	socket.on('alias', function (alias) {
-		if(listOfalias.indexOf(alias)<0) {
-			this.alias = alias;
-			console.log(listOfalias);
-			listOfalias.push(alias);
-			console.log(listOfalias);
-			console.log(this.alias);
-		} else {
-			 socket.emit("alias", "Alias please ?");
-		}
-	});
-
-});
-app.use(express.static(__dirname + '/public'));
-var createList = function (request, result, next) {
-	if(null == request.session.list) {
-		request.session.list = new Array();
+function connectionListner(socket) {
+	if(null == socket.alias) {
+		addAlias();
 	}
-	next();
-}
+	console.log('Un client');
+	socket.on('message', messageListner);
+	socket.on("alias", getAlias);
+};
+
+function messageListner(message) {
+	if(null != socket.alias) {
+		socket.broadcast.emit('message', message);
+	} else {
+		addAlias();
+	}
+};
+
+io.sockets.on('connection', connectionListner);
+app.use(express.static(__dirname + '/public'));
+
 var index = function(request, result){
 	result.setHeader("Content-Type", "text/plain");
 	result.end("Tu es sur l'index pauvre fou!");
@@ -91,89 +91,10 @@ var chat = function(request, result){
 	result.render("chat.ejs");
 };
 
-function getUser(request, result) {
-	var globalresult = result;
-	var getUserEvent = db.getUser(request.params.alias, request.params.alias);
-	getUserEvent.on('success', 
-		function(res) {
-			globalresult.send(JSON.stringify(res));
-		}
-	);
-	getUserEvent.on('error', 
-		function(error) {
-			console.log(error);
-			globalresult.send(JSON.stringify(error));
-		}
-	);
-}
-function connectDisplay(request, result) {
-	if(null == request.session.alias) {
-		result.setHeader("Content-Type", "text/html");
-		result.render("connect.ejs");
-	} else {
-		result.redirect("/");
-	}
-}
 
-function connectPost(request, result) {
-	var alias = request.body.alias;
-	var password = request.body.password;
-	if(alias && password) {
-		var getUserEvent = db.getUser(alias, password);
-		getUserEvent.on("success", 
-			function(queryResult) {
-				var path = request.session.pathWanted;
-				request.session.pathWanted = null;
-				console.log("PATH : ", path);
-				request.session.alias = queryResult.alias;
-				console.log("alias 1: ", request.session.alias);
-				result.redirect("/");
-			}
-		);
-		getUserEvent.on("error", 
-			function(result) {
-				var path = request.session.pathWanted;
-				request.session.pathWanted = null;
-				result.redirect(path);
-			}
-		);
-	} else {
-		result.redirect("/connect");
-	}
-	if(null == request.session.alias) {
-		result.setHeader("Content-Type", "text/html");
-		result.render("connect.ejs");
-	} else {
-		result.redirect("/");
-	}
-}
 
-/*function initPathWanted(request, result, next) {
-	if(!request.session.pathWanted) {
-		request.session.pathWanted = request.path;
-	}
-	next();
-};*/
 
-function isConect(request, result, next) {
-	console.log("alias : ", request.session.alias);
-	if(typeof request.session.alias === 'undefined' || null == request.session.alias) {
-		request.session.pathWanted =request.path;
-		result.redirect("/connect");
-	} else {
-		next();
-	}
-}
-function adminChat(request, result) {
-
-}
-
-app.get("/connect", connectDisplay)
-.post("/connect", connectPost)
-.use(isConect)
-.get("/", index)
-/*.get("/addUser/:alias/:password", withParams)
-.get("/getUser/:alias/:password", getUser)*/
+app.get("/", index)
 .post("/list", addElementToList)
 .get("/list", showList)
 .get("/list/delete/:id", deleteElementToList)
