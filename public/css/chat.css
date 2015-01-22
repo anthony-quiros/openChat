@@ -53,3 +53,9 @@ body {
 	margin-left: 5px;
 	cursor: pointer;
 }
+
+#sendImage {
+	width: 125px;
+	height: 25px;
+	margin-top : 10px;
+}
