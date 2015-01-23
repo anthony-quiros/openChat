@@ -6,12 +6,13 @@ var session = require("cookie-session");
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser');
 var listOfAlias = new Array();
+/*var config = require("jsonconfig");*/
 
 app.use(cookieParser())
 	.use(session({secret: 'todotopsecret'}))
 	.use(bodyParser())
 ;
-function addAlias(){
+function addAlias(socket){
 	socket.emit("alias", "Sign in");
 };
 
@@ -21,14 +22,14 @@ function getAlias(alias) {
 
 function connectionListner(socket) {
 	if(null == socket.alias) {
-		addAlias();
+		addAlias(socket);
 	}
 	console.log('Un client');
-	socket.on('message', messageListner);
+	socket.on('message', function (message){socket.broadcast.emit('message', message);});
 	socket.on("alias", getAlias);
 };
 
-function messageListner(message) {
+function messageListner(message, socket) {
 	if(null != socket.alias) {
 		socket.broadcast.emit('message', message);
 	} else {
