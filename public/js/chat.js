@@ -30,7 +30,7 @@ $( document ).ready(function() {
 		closeClick	: false,
 		openEffect	: 'none',
 		closeEffect	: 'none',
-		afterLoad:function(){
+		beforeShow:function(){
 			$('#sendImg').click(function(){
 				var imgWidth = parseInt($("#imgWidth").val()) > 0 ? $("#imgWidth").val() : "200px";
 				var imgHeight = parseInt($("#imgHeight").val()) > 0 ? $("#imgHeight").val() : "300px";
