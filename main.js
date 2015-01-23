@@ -25,7 +25,10 @@ function connectionListner(socket) {
 		addAlias(socket);
 	}
 	console.log('Un client');
-	socket.on('message', function (message){socket.broadcast.emit('message', message);});
+	socket.on('message', function (message){
+		console.log("message envoyé : "+ message);
+		socket.broadcast.emit('message', message);
+	});
 	socket.on("alias", getAlias);
 };
 

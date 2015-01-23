@@ -29,12 +29,13 @@ $( document ).ready(function() {
 		autoSize	: false,
 		closeClick	: false,
 		openEffect	: 'none',
-		closeEffect	: 'none'
-	});
-	
-	$('#sendImg').click(function(){
-	var imgWidth = parseInt($("#imgWidth").val()) > 0 ? $("#imgWidth").val() : "200px";
-	var imgHeight = parseInt($("#imgHeight").val()) > 0 ? $("#imgHeight").val() : "300px";
-		socket.emit("message", "<img src=" + $("#valueImg").val() + " width="+ imgWidth +" height=" + imgHeight +"/>");
+		closeEffect	: 'none',
+		afterLoad:function(){
+			$('#sendImg').click(function(){
+				var imgWidth = parseInt($("#imgWidth").val()) > 0 ? $("#imgWidth").val() : "200px";
+				var imgHeight = parseInt($("#imgHeight").val()) > 0 ? $("#imgHeight").val() : "300px";
+				socket.emit("message", "<img src=" + $("#valueImg").val() + " width="+ imgWidth +" height=" + imgHeight +"/>");
+			});
+		}
 	});
 });
