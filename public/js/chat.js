@@ -1,4 +1,4 @@
-var socket = io.connect('http://localhost:8080');
+var socket = io.connect(window.location.host);
 var getMessage = function(message) {
 	var list = document.getElementById("listOfMessages");
 	list.innerHTML = list.innerHTML + "<br/>" + message;
