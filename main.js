@@ -6,7 +6,7 @@ var session = require("cookie-session");
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser');
 var listOfAlias = new Array();
-/*var config = require("jsonconfig");*/
+var conf = require("jsonconfig").requireModule();
 
 app.use(cookieParser())
 	.use(session({secret: 'todotopsecret'}))
@@ -103,5 +103,6 @@ app.get("/", index)
 .get("/list", showList)
 .get("/list/delete/:id", deleteElementToList)
 .get("/chat", chat);
-server.listen(80);
+console.log(conf.port);
+server.listen(conf.port);
 
