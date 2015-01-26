@@ -3,7 +3,34 @@ var getMessage = function(message) {
 	var list = document.getElementById("listOfMessages");
 	list.innerHTML = list.innerHTML + "<br/>" + message;
 };
-var sendMessage = function () {
+function sendImage() {
+	var list = document.getElementById("listOfMessages");
+	var imgWidth = parseInt($("#imgWidth").val()) > 0 ? $("#imgWidth").val() : "200";
+	var imgHeight = parseInt($("#imgHeight").val()) > 0 ? $("#imgHeight").val() : "300";
+	var url = $("#valueImg").val();
+	socket.emit("image", $("#valueImg").val(), imgHeight, imgWidth);
+	list.appendChild(createImgElement(url, imgHeight, imgWidth));
+	list.appendChild(createBrElement());
+}
+
+function createImgElement(url, height, width) {
+	var imgElement = document.createElement("img");
+	imgElement.setAttribute("src", url);
+	imgElement.setAttribute("height", height + "px");
+	imgElement.setAttribute("width", width + "px");
+	return imgElement;
+}
+function createBrElement() {
+	return document.createElement("br");
+}
+
+function getImage(url, height, width) {
+	var list = document.getElementById("listOfMessages");
+	list.appendChild(createImgElement(url, height, width));
+	list.appendChild(createBrElement());
+}
+
+function sendMessage() {
 	var message = document.getElementById("message").value;
 	console.log(message);
 	socket.emit("message", message);
@@ -11,11 +38,25 @@ var sendMessage = function () {
 	list.innerHTML = list.innerHTML + "<br/>" + message;
 }
 
-var sendAlias = function (message) {
-	var alias = prompt(message);
-	socket.emit("alias", alias);
+function showAliasForm (request) {
+	if(!request.isFirstTime) {
+		$('.alias #errorMessage').text = request.message;
+		console.log(request.message);
+	}
+	$('#showAliasForm').click();;
+
+};
+
+function sendAlias() {
+	var alias = $('#txtAlias').val();
+	if('' != alias) {
+		socket.emit('alias', alias);
+		$('.fancybox-close').click();
+	}
 }
-socket.on('message',getMessage);
+socket.on('message', getMessage);
+socket.on('image', getImage);
+socket.on("alias", showAliasForm);
 /*socket.on("alias", sendAlias);*/
 document.getElementById("sendMessage").addEventListener("click", sendMessage);
 
@@ -31,11 +72,22 @@ $( document ).ready(function() {
 		openEffect	: 'none',
 		closeEffect	: 'none',
 		beforeShow:function(){
-			$('#sendImg').click(function(){
-				var imgWidth = parseInt($("#imgWidth").val()) > 0 ? $("#imgWidth").val() : "200px";
-				var imgHeight = parseInt($("#imgHeight").val()) > 0 ? $("#imgHeight").val() : "300px";
-				socket.emit("message", "<img src=" + $("#valueImg").val() + " width="+ imgWidth +" height=" + imgHeight +"/>");
-			});
+			$('#sendImg').click(sendImage);
+		}
+	});
+
+	    $('#showAliasForm').fancybox({
+		minWidth	: 520,
+		minHeight	: 25,
+		width	: 520,
+		height	: 25,
+		fitToView	: false,
+		autoSize	: false,
+		closeClick	: false,
+		openEffect	: 'none',
+		closeEffect	: 'none',
+		beforeShow:function(){
+			$('#sendAlias').click(sendAlias);
 		}
 	});
 });

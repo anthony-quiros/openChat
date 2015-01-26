@@ -124,3 +124,7 @@ body {
 .basicText {
 	text-decoration : none;
 }
+
+.alias {
+	text-align: center;
+}
