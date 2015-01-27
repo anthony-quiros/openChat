@@ -1,4 +1,9 @@
 var socket = io.connect(window.location.host);
+var emoticons = [
+	[":)","Veryhappy.gif"],
+	[";)","wink.gif"]
+]
+
 var getMessage = function(message) {
 	var list = document.getElementById("listOfMessages");
 	list.innerHTML = list.innerHTML + "<br/>" + message;
@@ -67,18 +72,22 @@ function initTextDivWithSmileys(){
 		this.contentEditable = true;
 	});
 	
-	$("#message").keyup(function(){	
-		if($(this).html().indexOf(':)') >= 0){	
-			$("#message").append('<img src=\"images\\smileys\\Veryhappy.gif\" />');
-			$('#message').html($('#message').html().replace(':)', ''));
-			
-			// Déplace le curseur juste après l'insertion de l'emoticone dans la div editable
-			var range = window.getSelection().getRangeAt($("#message").children()[$("#message").children().length-1]);
-			range.setStartAfter($("#message").children()[$("#message").children().length-1]);
-			window.getSelection().removeAllRanges();
-			window.getSelection().addRange(range);
+	$("#message").keyup(function(){
+		for (i = 0; i < emoticons.length; ++i) {
+			console.log(emoticons[i]);
+			if($(this).html().indexOf(emoticons[i][0]) >= 0){	
+				$("#message").append('<img src=\"images\\smileys\\'+ emoticons[i][1] +'\" />');
+				$('#message').html($('#message').html().replace(emoticons[i][0], ''));
+				
+				// Déplace le curseur juste après l'insertion de l'emoticone dans la div editable
+				var range = window.getSelection().getRangeAt($("#message").children()[$("#message").children().length-1]);
+				range.setStartAfter($("#message").children()[$("#message").children().length-1]);
+				window.getSelection().removeAllRanges();
+				window.getSelection().addRange(range);
+			}
 		}
 	});
+	
 }
 
 $( document ).ready(function() {
