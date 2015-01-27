@@ -60,13 +60,6 @@ body {
 }
 
 .button {
-	-webkit-box-shadow: rgba(0, 0, 0, 0.247059) 0px 0px 0px 1px inset, rgba(255, 255, 255, 0.298039) 0px 2px 0px 0px inset, rgba(0, 0, 0, 0.14902) 0px 1px 2px 0px;
-	-webkit-transition-delay: 0s;
-	-webkit-transition-duration: 0.1s;
-	-webkit-transition-property: box-shadow;
-	-webkit-transition-timing-function: linear;
-	-webkit-user-drag: none;
-	-webkit-user-select: none;
 	background-color: rgb(230, 230, 230);
 	background-image: linear-gradient(rgba(255, 255, 255, 0.298039), rgba(255, 255, 255, 0.14902) 40%, transparent);
 	border-bottom-color: rgba(0, 0, 0, 0);
@@ -126,4 +119,8 @@ body {
 
 .alias {
 	text-align: center;
+}
+
+.commands {
+  padding-top: 2%;
 }
