@@ -45,6 +45,7 @@ function sendMessage() {
 	socket.emit("message", message);
 	var list = document.getElementById("listOfMessages");
 	list.innerHTML = list.innerHTML + "<br/>" + message;
+	$("#message").html("");
 }
 
 function showAliasForm (request) {
