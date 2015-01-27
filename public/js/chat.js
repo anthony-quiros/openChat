@@ -76,7 +76,6 @@ function initTextDivWithSmileys(){
 	});
 	$("#message").keyup(function(){
 		for (i = 0; i < emoticons.length; ++i) {
-			console.log(emoticons[i]);
 			if($(this).html().indexOf(emoticons[i][0]) >= 0){	
 				$("#message").append('<img src=\"images\\smileys\\'+ emoticons[i][1] +'\" />');
 				$('#message').html($('#message').html().replace(emoticons[i][0], ''));
