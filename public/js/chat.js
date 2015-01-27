@@ -69,12 +69,11 @@ socket.on("alias", showAliasForm);
 /*socket.on("alias", sendAlias);*/
 document.getElementById("sendMessage").addEventListener("click", sendMessage);
 
-
+/** Initialisation des div éditables et gestion des émoticones dans l'input associé. **/
 function initTextDivWithSmileys(){
 	$('.editable').each(function(){
 		this.contentEditable = true;
 	});
-	
 	$("#message").keyup(function(){
 		for (i = 0; i < emoticons.length; ++i) {
 			console.log(emoticons[i]);
@@ -90,26 +89,28 @@ function initTextDivWithSmileys(){
 			}
 		}
 	});
-	
 }
 
-$( document ).ready(function() {
-    $('.sendImage').fancybox({
-		minWidth	: 520,
-		minHeight	: 25,
-		width	: 520,
-		height	: 25,
-		fitToView	: false,
-		autoSize	: false,
-		closeClick	: false,
-		openEffect	: 'none',
-		closeEffect	: 'none',
-		beforeShow:function(){
-			$('#sendImg').click(sendImage);
-		}
+/** Initialisation des popins du chat **/
+function initChatPopins(){
+	// Popin d'insertion d'image
+	$('.sendImage').fancybox({
+			minWidth	: 520,
+			minHeight	: 25,
+			width	: 520,
+			height	: 25,
+			fitToView	: false,
+			autoSize	: false,
+			closeClick	: false,
+			openEffect	: 'none',
+			closeEffect	: 'none',
+			beforeShow:function(){
+				$('#sendImg').click(sendImage);
+			}
 	});
-
-	    $('#showAliasForm').fancybox({
+	
+	//Popin de saisie d'alias
+	$('#showAliasForm').fancybox({
 		minWidth	: 520,
 		minHeight	: 25,
 		width	: 520,
@@ -123,6 +124,9 @@ $( document ).ready(function() {
 			$('#sendAlias').click(sendAlias);
 		}
 	});
-	
+}
+
+$( document ).ready(function() {
+	initChatPopins();
 	initTextDivWithSmileys();
 });
