@@ -61,17 +61,23 @@ socket.on("alias", showAliasForm);
 /*socket.on("alias", sendAlias);*/
 document.getElementById("sendMessage").addEventListener("click", sendMessage);
 
+
 function initTextDivWithSmileys(){
 	$('.editable').each(function(){
 		this.contentEditable = true;
 	});
-
-	$("#message").keyup(function(){
-		if($(this).html().indexOf(':)') >= 0){
+	
+	$("#message").keyup(function(){	
+		if($(this).html().indexOf(':)') >= 0){	
 			$("#message").append('<img src=\"images\\smileys\\Veryhappy.gif\" />');
 			$('#message').html($('#message').html().replace(':)', ''));
+			
+			// Déplace le curseur juste après l'insertion de l'emoticone dans la div editable
+			var range = window.getSelection().getRangeAt($("#message").children()[$("#message").children().length-1]);
+			range.setStartAfter($("#message").children()[$("#message").children().length-1]);
+			window.getSelection().removeAllRanges();
+			window.getSelection().addRange(range);
 		}
-
 	});
 }
 
