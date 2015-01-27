@@ -124,3 +124,7 @@ body {
 .commands {
   padding-top: 2%;
 }
+
+table, td{
+    border: 1px solid black;
+}

@@ -91,6 +91,29 @@ function initTextDivWithSmileys(){
 	});
 }
 
+/** Génération du tableau contenant la liste des emoticons et raccourcis disponibles **/
+function generateTable(){
+	var html = "<table><tr><td><b>Raccourci</b></td><td><b>Smiley</b></td></tr>";
+	for (i = 0; i < emoticons.length; ++i) {
+		html += "<tr>";
+		for (j = 0; j < 2; ++j) {
+			html += "<td>";
+			if( j == 0 ){
+				//Nous sommes sur la premiere colonne (raccourci)
+				html += emoticons[i][j];
+			}
+			else{
+				//Nous sommes sur la seconde colonne (image de l'émoticone)
+				html += "<img src=\"images\\smileys\\"+ emoticons[i][j] +"\" />";
+			}
+			html += "</td>";
+		}
+		html += "</tr>";
+	}
+	html += "</table>";
+	return html;
+}
+
 /** Initialisation des popins du chat **/
 function initChatPopins(){
 	// Popin d'insertion d'image
@@ -123,6 +146,23 @@ function initChatPopins(){
 		beforeShow:function(){
 			$('#sendAlias').click(sendAlias);
 		}
+	});
+	
+	$('.showEmoticons').fancybox({
+			minWidth	: 140,
+			minHeight	: 200,
+			width	: 140,
+			height	: 200,
+			fitToView	: false,
+			autoSize	: false,
+			closeClick	: false,
+			openEffect	: 'none',
+			closeEffect	: 'none',
+			beforeShow:function(){
+				$('#showEmoticons').append(
+				"<table>" + generateTable() +"</table>"
+				);
+			}
 	});
 }
 
