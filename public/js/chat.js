@@ -4,7 +4,7 @@ var getMessage = function(message) {
 	list.innerHTML = list.innerHTML + "<br/>" + message;
 };
 var sendMessage = function () {
-	var message = document.getElementById("message").value;
+	var message = $("#message").html();
 	console.log(message);
 	socket.emit("message", message);
 	var list = document.getElementById("listOfMessages");
@@ -18,6 +18,20 @@ var sendAlias = function (message) {
 socket.on('message',getMessage);
 /*socket.on("alias", sendAlias);*/
 document.getElementById("sendMessage").addEventListener("click", sendMessage);
+
+function initTextDivWithSmileys(){
+	$('.editable').each(function(){
+		this.contentEditable = true;
+	});
+
+	$("#message").keyup(function(){
+		if($(this).html().indexOf(':)') >= 0){
+			$("#message").append('<img src=\"images\\smileys\\Veryhappy.gif\" />');
+			$('#message').html($('#message').html().replace(':)', ''));
+		}
+
+	});
+}
 
 $( document ).ready(function() {
     $('.sendImage').fancybox({
@@ -38,4 +52,6 @@ $( document ).ready(function() {
 			});
 		}
 	});
+	
+	initTextDivWithSmileys();
 });

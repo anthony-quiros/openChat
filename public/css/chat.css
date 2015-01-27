@@ -22,10 +22,14 @@ body {
 	overflow-y: scroll;
 }
 
+.editable {
+	border: solid 2px black;
+}
+
 #write {
 	height: 100px;
+	width: 100%;
 	margin-top: 10px;
-	border: solid 2px black;
 }
 
 #input {
@@ -35,13 +39,8 @@ body {
 	background-color: #FFFFFF;
 	float: left;
 }
-#input textarea {
-	height: 76px;
-	width: 866px;
-	border: none;
-	resize: none;
-	padding: 10px;
-	outline: none;
+#input, #message {
+  height: 100%;
 }
 
 #sendMessage {
