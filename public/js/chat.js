@@ -1,6 +1,9 @@
 var socket = io.connect(window.location.host);
 var emoticons = [
 	[":)","Veryhappy.gif"],
+	[":s","dizzy.gif"],
+	[":o","outraged.gif"],
+	[":(","sad.gif"],
 	[";)","wink.gif"]
 ]
 
