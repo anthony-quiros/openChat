@@ -128,3 +128,11 @@ body {
 table, td{
     border: 1px solid black;
 }
+
+#showEmoticons td {
+	text-align: center;
+}
+
+#showEmoticons td img {
+	cursor: pointer;
+}

@@ -27,7 +27,7 @@ function connectionListner(socket) {
 	socket.on('message', function (message) {
 		if(socket.alias) {
 			console.log("message envoyé : "+ validator.escape(message));
-			socket.broadcast.emit('message', validator.escape(message));
+			socket.broadcast.emit('message', validator.escape(message), socket.alias);
 		} else {
 			addAlias(socket, false, "Alias !!!!!");
 		}

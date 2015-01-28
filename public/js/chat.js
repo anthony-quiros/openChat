@@ -7,9 +7,9 @@ var emoticons = [
 	[";)","wink.gif"]
 ]
 
-var getMessage = function(message) {
+var getMessage = function(message, alias) {
 	var messageToAppend = isEncHTML(message) ? decHTMLifEnc(message) : message;
-	$("#listOfMessages").append("<br/>" + messageToAppend);
+	$("#listOfMessages").append("<br/><b>" + alias + " :</b> " + messageToAppend);
 	Prism.highlightAll();
 };
 
@@ -67,6 +67,11 @@ function sendAlias() {
 		$('.fancybox-close').click();
 	}
 }
+function createEmoticonElement(fileName) {
+	var elt = document.createElement("img");
+	elt.setAttribute("src", fileName);
+	return elt;
+}
 socket.on('message', getMessage);
 socket.on('image', getImage);
 socket.on("alias", showAliasForm);
@@ -80,8 +85,10 @@ function initTextDivWithSmileys(){
 	});
 	$("#message").keyup(function(){
 		for (i = 0; i < emoticons.length; ++i) {
-			if($(this).html().indexOf(emoticons[i][0]) >= 0){	
-				$("#message").append('<img src=\"images\\smileys\\'+ emoticons[i][1] +'\" />');
+			if($(this).html().indexOf(emoticons[i][0]) >= 0){
+				$("#message").each(function() {
+					this.appendChild(createEmoticonElement('images\\smileys\\'+ emoticons[i][1]));
+				});
 				$('#message').html($('#message').html().replace(emoticons[i][0], ''));
 				
 				// Déplace le curseur juste après l'insertion de l'emoticone dans la div editable
@@ -164,6 +171,13 @@ function initChatPopins(){
 				$('#showEmoticons').append(
 				"<table>" + generateTable() +"</table>"
 				);
+				$('#showEmoticons tr img').click(function () { 
+					var src = this.getAttribute("src");
+					$("#message").each(function() {
+						this.appendChild(createEmoticonElement(src));
+						$('.fancybox-close').click();
+					});
+				});
 			}
 	});
 }
