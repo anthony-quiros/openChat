@@ -41,10 +41,9 @@ function getImage(url, height, width) {
 
 function sendMessage() {
 	var message = $("#message").html();
-	console.log(message);
-	socket.emit("message", message);
-	var list = document.getElementById("listOfMessages");
-	list.innerHTML = list.innerHTML + "<br/>" + message;
+	var messageToAppend = isEncHTML(message) ? decHTMLifEnc(message) : message;
+	socket.emit("message", messageToAppend);
+	$("#listOfMessages").html("<br/>" + messageToAppend);
 	$("#message").html("");
 }
 
