@@ -9,7 +9,8 @@ var emoticons = [
 
 var getMessage = function(message) {
 	var messageToAppend = isEncHTML(message) ? decHTMLifEnc(message) : message;
-	$("#listOfMessages").html("<br/>" + messageToAppend);
+	$("#listOfMessages").append("<br/>" + messageToAppend);
+	Prism.highlightAll();
 };
 
 function sendImage() {
@@ -43,8 +44,11 @@ function sendMessage() {
 	var message = $("#message").html();
 	var messageToAppend = isEncHTML(message) ? decHTMLifEnc(message) : message;
 	socket.emit("message", messageToAppend);
-	$("#listOfMessages").html("<br/>" + messageToAppend);
+	$("#listOfMessages").append("<br/>" + messageToAppend);
 	$("#message").html("");
+	
+	//On rafraichit la colorisation syntaxique
+	Prism.highlightAll();
 }
 
 function showAliasForm (request) {
