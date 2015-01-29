@@ -6,10 +6,11 @@ var session = require("cookie-session");
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser');
 var validator = require("validator");
-var dl  = require('delivery'),
-    fs  = require('fs');
+var dl  = require('delivery');
+var fs  = require('fs');
 var conf = require("jsonconfig").requireModule();
 var listOfUsers = new Array();
+var folderName = 'uploads';
 
 app.use(cookieParser())
 	.use(session({secret: 'todotopsecret'}))
@@ -92,8 +93,22 @@ io.sockets.on('connection', function(socket){
   var delivery = dl.listen(socket);
   delivery.on('receive.success',function(file){
 	
-	//TODO : pouvoir paramétrer le folder contenant les uploads : par exempel, si le folder existe on met le fichier dedans, sinon on le crée avant.
-    fs.writeFile("uploads/"+file.name,file.buffer, function(err){
+	//TODO : Externaliser le nom du folder contenant les uploads dans la conf
+	fs.mkdir('public/' + folderName, function(error) {
+		//errno: 47 code: 'EEXIST': Le repertoire existe déjà.
+		if (error) {
+			if(error.errno === 47){
+				console.log("The folder : "+ folderName + " already exists on server");
+			}
+			else{
+				console.log(error);
+			}
+		}
+		else{
+			console.log("Folder created");
+		}
+	});
+    fs.writeFile( folderName + file.name,file.buffer, function(err){
       if(err){
         console.log('File could not be saved.');
       }else{
