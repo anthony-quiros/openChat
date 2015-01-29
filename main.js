@@ -108,7 +108,7 @@ io.sockets.on('connection', function(socket){
 			console.log("Folder created");
 		}
 	});
-    fs.writeFile( folderName + file.name,file.buffer, function(err){
+    fs.writeFile('public/' + folderName + file.name,file.buffer, function(err){
       if(err){
         console.log('File could not be saved.');
       }else{
