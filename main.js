@@ -6,6 +6,8 @@ var session = require("cookie-session");
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser');
 var validator = require("validator");
+var dl  = require('delivery'),
+    fs  = require('fs');
 var conf = require("jsonconfig").requireModule();
 var listOfUsers = new Array();
 
@@ -16,7 +18,6 @@ app.use(cookieParser())
 function addAlias(socket, isFirstTime, message) {
 	socket.emit("alias", {"isFirstTime" : isFirstTime, "message" : message});
 };
-
 
 function connectionListner(socket) {
 	var socket = socket;
@@ -72,23 +73,32 @@ function connectionListner(socket) {
 io.sockets.on('connection', connectionListner);
 app.use(express.static(__dirname + '/public'));
 
-
 var notExist = function(request, result) {
 	result.setHeader("Content-Type", "text/plain");
 	result.end("Not Found !");
 };
-
 
 var chat = function(request, result){
 	result.setHeader("Content-Type", "text/html");
 	result.render("chat.ejs");
 };
 
-
-
-
 app.get("/", chat)
 .use(notExist)
 console.log("PORT : ", conf.port);
 server.listen(conf.port);
 
+io.sockets.on('connection', function(socket){
+  var delivery = dl.listen(socket);
+  delivery.on('receive.success',function(file){
+	
+	//TODO : pouvoir paramétrer le folder contenant les uploads : par exempel, si le folder existe on met le fichier dedans, sinon on le crée avant.
+    fs.writeFile("uploads/"+file.name,file.buffer, function(err){
+      if(err){
+        console.log('File could not be saved.');
+      }else{
+        console.log('File saved.');
+      };
+    });
+  });
+});
