@@ -10,7 +10,7 @@ var dl  = require('delivery');
 var fs  = require('fs');
 var conf = require("json-config-manager").requireModule();
 var listOfUsers = new Array();
-var folderName = 'uploads';
+var folderName = conf.folderName;
 
 app.use(cookieParser())
 	.use(session({secret: 'todotopsecret'}))
@@ -91,20 +91,18 @@ server.listen(conf.port);
 
 io.sockets.on('connection', function(socket){
   var delivery = dl.listen(socket);
-  delivery.on('receive.success',function(file){
-	
-	//TODO : Externaliser le nom du folder contenant les uploads dans la conf
+  var socket = socket;
+  delivery.on('receive.success',function(file) {
+	console.log(file.size);
 	fs.mkdir('public/' + folderName, function(error) {
 		//errno: 47 code: 'EEXIST': Le repertoire existe déjà.
 		if (error) {
 			if(error.errno === 47){
 				console.log("The folder : "+ folderName + " already exists on server");
-			}
-			else{
+			} else{
 				console.log(error);
 			}
-		}
-		else{
+		} else {
 			console.log("Folder created");
 		}
 	});
@@ -113,6 +111,7 @@ io.sockets.on('connection', function(socket){
         console.log('File could not be saved.');
       }else{
         console.log('File saved.');
+        socket.broadcast.emit("download", folderName + file.name, file.name);
       };
     });
   });

@@ -72,9 +72,20 @@ function createEmoticonElement(fileName) {
 	elt.setAttribute("src", fileName);
 	return elt;
 }
+function getFile(fileUrl, fileName) {
+	var link = document.createElement("a");
+	link.setAttribute("id", "download_" + fileName);
+	link.setAttribute("download", fileName);
+	link.setAttribute("href", fileUrl);
+	link.innerText= "Télécharger : " + fileName;
+	$("#listOfMessages").each(function() {
+		this.appendChild(link);
+	});
+}
 socket.on('message', getMessage);
 socket.on('image', getImage);
 socket.on("alias", showAliasForm);
+socket.on("download", getFile);
 /*socket.on("alias", sendAlias);*/
 document.getElementById("sendMessage").addEventListener("click", sendMessage);
 
