@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var validator = require("validator");
 var dl  = require('delivery');
 var fs  = require('fs');
-var conf = require("jsonconfig").requireModule();
+var conf = require("json-config-manager").requireModule();
 var listOfUsers = new Array();
 var folderName = 'uploads';
 
