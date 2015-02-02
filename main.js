@@ -106,12 +106,13 @@ io.sockets.on('connection', function(socket){
 			console.log("Folder created");
 		}
 	});
-    fs.writeFile('public/' + folderName + file.name,file.buffer, function(err){
+	var fileUrl = folderName + '/' + file.name
+    fs.writeFile('public/' + fileUrl, file.buffer, function(err){
       if(err){
         console.log('File could not be saved.');
       }else{
         console.log('File saved.');
-        socket.broadcast.emit("download", folderName + file.name, file.name);
+        socket.broadcast.emit("download",fileUrl, file.name, socket.alias);
       };
     });
   });

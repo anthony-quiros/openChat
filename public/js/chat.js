@@ -72,12 +72,12 @@ function createEmoticonElement(fileName) {
 	elt.setAttribute("src", fileName);
 	return elt;
 }
-function getFile(fileUrl, fileName) {
+function getFile(fileUrl, fileName, alias) {
 	var link = document.createElement("a");
 	link.setAttribute("id", "download_" + fileName);
 	link.setAttribute("download", fileName);
 	link.setAttribute("href", fileUrl);
-	link.innerText= "Télécharger : " + fileName;
+	link.innerText= alias + " : Télécharger : " + fileName;
 	$("#listOfMessages").each(function() {
 		this.appendChild(link);
 	});
