@@ -18,12 +18,12 @@ body {
 #listOfMessages {
 	min-height: 500px;
 	height: 500px;
-	border: solid 2px black;
+	border: solid 1px black;
 	overflow-y: scroll;
 }
 
 .editable {
-	border: solid 2px black;
+	border: solid 1px black;
 }
 
 #write {
@@ -34,8 +34,7 @@ body {
 
 #input {
 	display: block;
-	min-width: 900px;
-	width: 900px;
+	width: 88%;
 	background-color: #FFFFFF;
 	float: left;
 }
@@ -45,12 +44,9 @@ body {
 }
 
 #sendMessage {
-	padding: 32px 25px 9px 25px;
-	height: 34px;
+	margin-left: 14px;
+	margin-top: 5px;
 	float: left;
-	border: solid 2px;
-	margin-top: 12px;
-	margin-left: 5px;
 	cursor: pointer;
 }
 
@@ -112,7 +108,7 @@ body {
 	transition-timing-function: linear;
 	vertical-align: baseline;
 	white-space: nowrap;
-	 border: 2px solid;
+	border: 1px solid;
 }
 
 .basicText {
@@ -137,4 +133,10 @@ table, td{
 
 #showEmoticons td img {
 	cursor: pointer;
+}
+
+.backgroundSend {
+	background-image: url("../images/send-97x89.png");
+	width : 97px;
+	height : 89px;
 }
