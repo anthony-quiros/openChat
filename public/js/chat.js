@@ -7,6 +7,9 @@ var emoticons = [
 	[";)","wink.gif"]
 ]
 
+//Un tableau contenant l'ensemble des touches pressées par l'utilisateur
+var keys = {};
+
 var getMessage = function(message, alias) {
 	var messageToAppend = isEncHTML(message) ? decHTMLifEnc(message) : message;
 	$("#listOfMessages").append("<br/><b>" + alias + " :</b> " + messageToAppend);
@@ -214,4 +217,18 @@ $(function(){
 $( document ).ready(function() {
 	initChatPopins();
 	initTextDivWithSmileys();
+});
+
+/** Sur une pression de touche on ajoute une entrée correspondante dans un tableau **/
+$(document).keydown(function (e) {
+    keys[e.which] = true;
+	//Code 13 = enter, Code 17 = CTRL
+	if(keys[13] && keys[17]){
+		sendMessage();
+	}
+});
+
+/**On supprime l'entrée correspondant à la touche relachée dans le tableau des touches pressées **/
+$(document).keyup(function (e) {
+    delete keys[e.which];
 });
