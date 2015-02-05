@@ -38,8 +38,10 @@
 					<a class="basicText sendImage fancybox.ajax" href="/html/popinImage.html">Envoyer une image</a>
 				</span>
 				<a id="showAliasForm" class="basicText button fancybox.ajax" href="/html/alias.html">Choisir un alias</a>
-				<input type="file">
-				<input type="submit" value="Upload Image" name="submit">
+				<form enctype="multipart/form-data" method="post">
+					<input type="file" name="upload">
+					<input type="submit" value="Upload Image" name="submit">
+				</form>
 			</div>
 		</div>
         <script src="../socket.io/socket.io.js"></script>

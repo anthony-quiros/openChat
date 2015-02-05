@@ -10,6 +10,11 @@ var dl  = require('delivery');
 var fs  = require('fs');
 var conf = require("json-config-manager").requireModule();
 var FifoArray = require("fifo-array");
+
+var formidable = require('formidable');
+var util = require('util');
+var fsExtra   = require('fs-extra');
+var path = require("path");
 var listOfMessages = new FifoArray(conf.listOfMessagesSize);
 var listOfUsers = new Array();
 var folderName = conf.folderName;
@@ -99,36 +104,54 @@ var chat = function(request, result){
 	result.render("chat.ejs");
 };
 
+
+
+function sendFile(request, result) {
+	var myRequest = request;
+	var myResult = result;
+	console.log("sendFile");
+	 var form = new formidable.IncomingForm();
+    form.parse(myRequest, function(err, fields, files) {
+    	console.log("toto");
+      myResult.writeHead(200, {'content-type': 'text/plain'});
+      myResult.write('received upload:\n\n');
+      myResult.end(util.inspect({fields: fields, files: files}));
+    });
+    form.on('end', function (fields, files) {
+            /* Temporary location of our uploaded file */
+            var temp_path = this.openedFiles[0].path;
+            /* The file name of the uploaded file */
+            var file_name = this.openedFiles[0].name;
+            /* Location where we want to copy the uploaded file */
+            var new_location = path.join(__dirname, "public/" + folderName + "/");
+            fsExtra.copy(temp_path, new_location + file_name, function (err) {
+                if (err) {
+                    console.error(err);
+                } else {
+                    console.log("success!")
+                    fsExtra.remove(temp_path);
+                    io.sockets.emit("download", folderName + "/" + file_name, file_name, "test");
+                }
+            });
+        });
+
+ 	form.on('error', function (fields, files) {
+     	console.log("Erreur lors du téléchargement");
+     });
+     form.on('progress', function(bytesReceived, bytesExpected) {
+        var percent_complete = (bytesReceived / bytesExpected) * 100;
+        console.log(percent_complete.toFixed(2));
+    });
+    return;
+};
+
+function postSendFile(request, result){
+	result.setHeader("Content-Type", "text/html");
+	result.render("chat.ejs");
+};
+
 app.get("/", chat)
+.post("/", sendFile)
 .use(notExist)
 console.log("PORT : ", conf.port);
 server.listen(conf.port);
-
-io.sockets.on('connection', function(socket){
-  var delivery = dl.listen(socket);
-  var socket = socket;
-  delivery.on('receive.success',function(file) {
-	console.log(file.size);
-	fs.mkdir('public/' + folderName, function(error) {
-		//errno: 47 code: 'EEXIST': Le repertoire existe déjà.
-		if (error) {
-			if(error.errno === 47){
-				console.log("The folder : "+ folderName + " already exists on server");
-			} else{
-				console.log(error);
-			}
-		} else {
-			console.log("Folder created");
-		}
-	});
-	var fileUrl = folderName + '/' + file.name
-    fs.writeFile('public/' + fileUrl, file.buffer, function(err){
-      if(err){
-        console.log('File could not be saved.');
-      }else{
-        console.log('File saved.');
-        socket.broadcast.emit("download",fileUrl, file.name, socket.alias);
-      };
-    });
-  });
-});
