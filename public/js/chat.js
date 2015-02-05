@@ -9,10 +9,32 @@ var emoticons = [
 
 //Un tableau contenant l'ensemble des touches pressées par l'utilisateur
 var keys = {};
+function getListOfMessages() {
+	return document.getElementById("listOfMessages");
+};
+
+function createMessageElement(alias, message) {
+	var list = document.getElementById("listOfMessages");
+	var messageClass = (null == alias) ? 'fromMe' : 'notFromMe';
+	var myAlias = (null == alias) ? 'You' : alias;
+	var messageElement = document.createElement("div");
+	var aliasElement = document.createElement("div");
+	var contentElement = document.createElement("div");
+	messageElement.setAttribute("class", messageClass);
+	aliasElement.setAttribute("class", "alias");
+	aliasElement.innerHTML = myAlias;
+	contentElement.setAttribute("class", "content");
+	contentElement.innerHTML = message; 
+	messageElement.appendChild(aliasElement);
+	messageElement.appendChild(contentElement);
+	list.appendChild(messageElement);
+	list.appendChild(createBrElement());
+};
+
 
 var getMessage = function(message, alias) {
 	var messageToAppend = isEncHTML(message) ? decHTMLifEnc(message) : message;
-	$("#listOfMessages").append("<br/><b>" + alias + " :</b> " + messageToAppend);
+	createMessageElement(alias, messageToAppend);
 	Prism.highlightAll();
 };
 
@@ -38,7 +60,6 @@ function createBrElement() {
 }
 
 function getImage(url, height, width) {
-	var list = document.getElementById("listOfMessages");
 	list.appendChild(createImgElement(url, height, width));
 	list.appendChild(createBrElement());
 }
@@ -47,7 +68,7 @@ function sendMessage() {
 	var message = $("#message").html();
 	var messageToAppend = isEncHTML(message) ? decHTMLifEnc(message) : message;
 	socket.emit("message", messageToAppend);
-	$("#listOfMessages").append("<br/>" + messageToAppend);
+	createMessageElement(null, messageToAppend);
 	$("#message").html("");
 	
 	//On rafraichit la colorisation syntaxique

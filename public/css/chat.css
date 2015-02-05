@@ -22,6 +22,44 @@ body {
 	overflow-y: scroll;
 }
 
+#listOfMessages div.fromMe , #listOfMessages div.notFromMe {
+	margin-bottom: 9px;
+}
+
+#listOfMessages div.fromMe div, #listOfMessages div.notFromMe div {
+	display: inline;
+}
+#listOfMessages div.fromMe {
+	float: right;
+	clear: right;
+}
+
+#listOfMessages div.notFromMe .content {
+	margin-left: 10px;
+}
+
+#listOfMessages div.fromMe .content {
+	margin-right: 10px;
+}
+
+#listOfMessages .alias {
+	font-weight: bold;
+	padding-left: 5px;
+	padding-right: 5px; 
+}
+
+#listOfMessages .fromMe .alias {
+	font-weight: bold;
+	background-color: #F09;
+	float: right;
+}
+
+#listOfMessages .notFromMe .alias {
+	font-weight: bold;
+	background-color: #3CF;
+}
+
+
 .editable {
 	border: solid 1px black;
 }
