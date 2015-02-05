@@ -9,6 +9,8 @@ var validator = require("validator");
 var dl  = require('delivery');
 var fs  = require('fs');
 var conf = require("json-config-manager").requireModule();
+var FifoArray = require("fifo-array");
+var listOfMessages = new FifoArray(conf.listOfMessagesSize);
 var listOfUsers = new Array();
 var folderName = conf.folderName;
 
@@ -19,17 +21,32 @@ app.use(cookieParser())
 function addAlias(socket, isFirstTime, message) {
 	socket.emit("alias", {"isFirstTime" : isFirstTime, "message" : message});
 };
+function sendListOfMessages(socket) {
+	for (message in listOfMessages) {
+		socket.emit("historic", listOfMessages[message]);
+		console.log("Le message", message);
+	};
+}
 
 function connectionListner(socket) {
 	var socket = socket;
 	if(null == socket.alias) {
+		sendListOfMessages(socket);
 		addAlias(socket, true, null);
 	}
 	console.log('New connection from :', socket.handshake.address);
 	socket.on('message', function (message) {
 		if(socket.alias) {
-			console.log("message envoyé : "+ validator.escape(message));
-			socket.broadcast.emit('message', validator.escape(message), socket.alias);
+			if(null != message && '' != message) {
+				var alias = socket.alias;
+				console.log("message envoyé : ", validator.escape(message));
+				socket.broadcast.emit('message', validator.escape(message), alias);
+				listOfMessages.push({
+					"message" : message,
+					"alias" : alias
+				});
+				console.log("historique", listOfMessages);
+			}
 		} else {
 			addAlias(socket, false, "Alias !!!!!");
 		}

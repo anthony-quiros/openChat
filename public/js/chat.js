@@ -84,11 +84,17 @@ function getFile(fileUrl, fileName, alias) {
 	$("#listOfMessages").each(function() {
 		this.appendChild(link);
 	});
-}
+};
+
+function getHistoric(message) {
+	getMessage(message.message, message.alias);
+};
+
 socket.on('message', getMessage);
 socket.on('image', getImage);
 socket.on("alias", showAliasForm);
 socket.on("download", getFile);
+socket.on("historic", getHistoric);
 /*socket.on("alias", sendAlias);*/
 document.getElementById("sendMessage").addEventListener("click", sendMessage);
 

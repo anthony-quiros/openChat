@@ -1,4 +1,5 @@
 {
 	"port" : "8080",
-	"folderName" : "uploads"
+	"folderName" : "uploads",
+	"listOfMessagesSize" : 10
 }
