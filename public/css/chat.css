@@ -24,11 +24,13 @@ body {
 
 #listOfMessages div.fromMe , #listOfMessages div.notFromMe {
 	margin-bottom: 9px;
+	display: table-row;
 }
 
-#listOfMessages div.fromMe div, #listOfMessages div.notFromMe div {
-	display: inline;
+#listOfMessages div.alias, #listOfMessages div.content {
+	display: table-cell;
 }
+
 #listOfMessages div.fromMe {
 	float: right;
 	clear: right;
@@ -42,19 +44,24 @@ body {
 	margin-right: 10px;
 }
 
-#listOfMessages .alias {
+#listOfMessages .alias span{
 	font-weight: bold;
-	padding-left: 5px;
-	padding-right: 5px; 
-}
+	padding-left: 2px;
+	padding-right: 2px;
+	margin-left: 5px;
+	margin-right: 5px;
 
+}
 #listOfMessages .fromMe .alias {
-	font-weight: bold;
-	background-color: #F09;
 	float: right;
 }
 
-#listOfMessages .notFromMe .alias {
+#listOfMessages .fromMe .alias span {
+	font-weight: bold;
+	background-color: #F09;
+}
+
+#listOfMessages .notFromMe .alias span {
 	font-weight: bold;
 	background-color: #3CF;
 }

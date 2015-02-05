@@ -20,9 +20,11 @@ function createMessageElement(alias, message) {
 	var messageElement = document.createElement("div");
 	var aliasElement = document.createElement("div");
 	var contentElement = document.createElement("div");
+	var aliasSpan = document.createElement("span");
 	messageElement.setAttribute("class", messageClass);
 	aliasElement.setAttribute("class", "alias");
-	aliasElement.innerHTML = myAlias;
+	aliasSpan.innerHTML = myAlias;
+	aliasElement.appendChild(aliasSpan);
 	contentElement.setAttribute("class", "content");
 	contentElement.innerHTML = message; 
 	messageElement.appendChild(aliasElement);
