@@ -45,21 +45,19 @@ function connectionListner(socket) {
 	});
 
 	socket.on("alias", function(alias) {
-		if(!socket.alias) {
-			console.log("Votre alias :", alias);
-			console.log("Vos alias :", listOfUsers);
-			var aliasExist = listOfUsers.indexOf(alias) < 0;
-			if(aliasExist) {
-				if(null != alias && '' != alias) {
-					socket.alias = alias;
-					listOfUsers.push(alias);
-					console.log(socket.alias);
-				} else {
-					addAlias(socket, false, "Try again");
-				}
+		console.log("Votre alias :", alias);
+		console.log("Vos alias :", listOfUsers);
+		var aliasExist = listOfUsers.indexOf(alias) < 0;
+		if(aliasExist) {
+			if(null != alias && '' != alias) {
+				socket.alias = alias;
+				listOfUsers.push(alias);
+				console.log(socket.alias);
 			} else {
-				addAlias(socket, false, alias + " is already used");
+				addAlias(socket, false, "Try again");
 			}
+		} else {
+			addAlias(socket, false, alias + " is already used");
 		}
 	});
 	socket.on('disconnect', function() {
