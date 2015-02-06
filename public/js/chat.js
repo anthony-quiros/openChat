@@ -227,27 +227,30 @@ function initChatPopins(){
 }
 
 /** Upload d'un fichier sur le serveur (par défaut dans le repertoire *uploads/file **/
-$(function(){  
-  socket.on('connect', function(){
-    var delivery = new Delivery(socket);
-
-    delivery.on('delivery.connect',function(delivery){
-      $("input[type=submit]").click(function(evt){
-        var file = $("input[type=file]")[0].files[0];
-        delivery.send(file);
-        evt.preventDefault();
-      });
+$("#sendFile").submit(function(e)
+{
+ 
+    var formObj = $(this);
+    var formData = new FormData(this);
+    $.ajax({
+        url: "/",
+    type: 'POST',
+        data:  formData,
+    mimeType:"multipart/form-data",
+    contentType: false,
+        cache: false,
+        processData:false,
+    success: function(data, textStatus, jqXHR) {
+ 				console.log("upload ok");
+    		},
+     error: function(jqXHR, textStatus, errorThrown) {
+     			console.log("upload ko");
+          }         
     });
-	delivery.on('send.success',function(fileUID){
-    console.log("Fichier uploadé avec succès");
-    });
-  });
-});
+    e.preventDefault(); //Prevent Default action. 
+    return false;
+}); 
 
-$( document ).ready(function() {
-	initChatPopins();
-	initTextDivWithSmileys();
-});
 
 /** Sur une pression de touche on ajoute une entrée correspondante dans un tableau **/
 $(document).keydown(function (e) {
