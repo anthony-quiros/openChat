@@ -226,9 +226,13 @@ function initChatPopins(){
 	});
 }
 
+$( document ).ready(function() {
+	initChatPopins();
+	initTextDivWithSmileys();
+});
+
 /** Upload d'un fichier sur le serveur (par défaut dans le repertoire *uploads/file **/
-$("#sendFile").submit(function(e)
-{
+$("#sendFile").submit(function(e){
  
     var formObj = $(this);
     var formData = new FormData(this);
@@ -253,7 +257,7 @@ $("#sendFile").submit(function(e)
 
 
 /** Sur une pression de touche on ajoute une entrée correspondante dans un tableau **/
-$(document).keydown(function (e) {
+$(document).keydown(function (e){
     keys[e.which] = true;
 	//Code 13 = enter, Code 17 = CTRL
 	if(keys[13] && keys[17]){
