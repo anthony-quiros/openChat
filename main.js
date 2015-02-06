@@ -2,36 +2,41 @@ var express = require("express");
 var app = express();
 var server = require('http').Server(app); 
 var io = require('socket.io')(server);
+
 var session = require("cookie-session");
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser');
+
 var validator = require("validator");
-var dl  = require('delivery');
+
 var fs  = require('fs');
 var conf = require("json-config-manager").requireModule();
 var FifoArray = require("fifo-array");
-
 var formidable = require('formidable');
-var util = require('util');
 var fsExtra   = require('fs-extra');
+var util = require('util');
 var path = require("path");
+
 var listOfMessages = new FifoArray(conf.listOfMessagesSize);
 var listOfUsers = new Array();
+
 var folderName = conf.folderName;
 
 app.use(cookieParser())
 	.use(session({secret: 'todotopsecret'}))
 	.use(bodyParser())
 ;
+
 function addAlias(socket, isFirstTime, message) {
 	socket.emit("alias", {"isFirstTime" : isFirstTime, "message" : message});
 };
+
 function sendListOfMessages(socket) {
 	for (message in listOfMessages) {
 		socket.emit("historic", listOfMessages[message]);
 		console.log("Le message", message);
 	};
-}
+};
 
 function connectionListner(socket) {
 	var socket = socket;
@@ -109,10 +114,9 @@ var chat = function(request, result){
 function sendFile(request, result) {
 	var myRequest = request;
 	var myResult = result;
-	console.log("sendFile");
 	 var form = new formidable.IncomingForm();
     form.parse(myRequest, function(err, fields, files) {
-    	console.log("toto");
+	console.log("upload started");
       myResult.writeHead(200, {'content-type': 'text/plain'});
       myResult.write('received upload:\n\n');
       myResult.end(util.inspect({fields: fields, files: files}));
