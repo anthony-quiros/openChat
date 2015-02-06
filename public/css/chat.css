@@ -21,7 +21,6 @@ body {
 	border: solid 1px black;
 	overflow-y: scroll;
 }
-
 #listOfMessages div.fromMe , #listOfMessages div.notFromMe {
 	margin-bottom: 9px;
 	display: table-row;
@@ -65,8 +64,6 @@ body {
 	font-weight: bold;
 	background-color: #3CF;
 }
-
-
 .editable {
 	border: solid 1px black;
 }

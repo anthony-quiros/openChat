@@ -11,6 +11,7 @@ var validator = require("validator");
 
 var fs  = require('fs');
 var conf = require("json-config-manager").requireModule();
+
 var FifoArray = require("fifo-array");
 var formidable = require('formidable');
 var fsExtra   = require('fs-extra');
@@ -37,7 +38,6 @@ function sendListOfMessages(socket) {
 		console.log("Le message", message);
 	};
 };
-
 function connectionListner(socket) {
 	var socket = socket;
 	if(null == socket.alias) {
@@ -155,7 +155,35 @@ function postSendFile(request, result){
 };
 
 app.get("/", chat)
-.post("/", sendFile)
 .use(notExist)
 console.log("PORT : ", conf.port);
 server.listen(conf.port);
+
+io.sockets.on('connection', function(socket){
+  var delivery = dl.listen(socket);
+  var socket = socket;
+  delivery.on('receive.success',function(file) {
+	console.log(file.size);
+	fs.mkdir('public/' + folderName, function(error) {
+		//errno: 47 code: 'EEXIST': Le repertoire existe déjà.
+		if (error) {
+			if(error.errno === 47){
+				console.log("The folder : "+ folderName + " already exists on server");
+			} else{
+				console.log(error);
+			}
+		} else {
+			console.log("Folder created");
+		}
+	});
+	var fileUrl = folderName + '/' + file.name
+    fs.writeFile('public/' + fileUrl, file.buffer, function(err){
+      if(err){
+        console.log('File could not be saved.');
+      }else{
+        console.log('File saved.');
+        socket.broadcast.emit("download",fileUrl, file.name, socket.alias);
+      };
+    });
+  });
+});
