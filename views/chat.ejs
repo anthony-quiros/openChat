@@ -29,13 +29,9 @@
 				<span id="sendMessage" class="backgroundSend"/>
             </div>
 			<div class="commands">
-				<span class="button">
-					<a class="basicText showEmoticons fancybox.ajax" href="/html/showAvailableEmoticons.html">Emoticons</a>
-				</span>
-				<span class="button">
-					<a class="basicText sendImage fancybox.ajax" href="/html/popinImage.html">Envoyer une image</a>
-				</span>
-				<a id="showAliasForm" class="basicText button fancybox.ajax" href="/html/alias.html">Choisir un alias</a>
+				<a class="basicText showEmoticons fancybox.ajax button imgEmoticon" href="/html/showAvailableEmoticons.html"></a>
+				<a class="basicText sendImage fancybox.ajax button imgSendImage" href="/html/popinImage.html"></a>
+				<a id="showAliasForm" class="basicText button fancybox.ajax button imgChooseAlias" href="/html/alias.html"></a>
 				<form id="sendFile" enctype="multipart/form-data" method="post">
 					<input type="file" name="upload">
 					<input type="submit" value="Upload Image" name="submit">
