@@ -201,6 +201,27 @@ function initChatPopins(){
 		}
 	});
 	
+	//Popin d'envoi de code
+	$('#selectLanguageToHighLight').fancybox({
+		minWidth	: 520,
+		minHeight	: 768,
+		width	: 1024,
+		height	: 768,
+		fitToView	: false,
+		autoSize	: false,
+		closeClick	: false,
+		openEffect	: 'none',
+		closeEffect	: 'none',
+		beforeShow:function(){
+			$('#codeEnter').keyup(function (e){
+				var message = $('#codeEnter').html();
+				console.log(message);
+				$('#codePreview').html("<pre><code class=\"language-javascript\">" + message + "</code></pre>");
+				Prism.highlightAll();
+			});
+		}
+	});
+	
 	$('.showEmoticons').fancybox({
 			minWidth	: 140,
 			minHeight	: 200,

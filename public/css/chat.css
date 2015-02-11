@@ -15,6 +15,7 @@ body {
 	padding: 50px;
 	float: left;
 	margin-left: 20%;
+	border: 5px black solid;
 }
 
 #listOfMessages {
@@ -128,6 +129,10 @@ body {
 	background: url(../images/button_uploadFile-97x46.png);
 }
 
+.imgSendCode {
+	background : url(../images/button_selectLanguageToHighlight-97x46.png);
+}
+
 .alias {
 	text-align: center;
 }
@@ -159,4 +164,22 @@ table, td{
 	float: left; 
 	margin-left: 10px;
 	margin-top: 10px;
+}
+
+#popinSelectLanguageToHighlight, #codeEnter{
+	height : 100%;
+}
+
+#codeEnter {
+    height: 95%;
+	width: 45%;
+	float: left;
+}
+
+#codePreview {
+	border: 1px solid;
+	margin-left: 15px;
+	height: 95%;
+	width: 46%;
+	float: left;
 }

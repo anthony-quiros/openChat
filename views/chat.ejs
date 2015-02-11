@@ -6,8 +6,6 @@
         <title>Chat</title>
         <link rel="stylesheet" href="/css/chat.css">
 		<link rel="stylesheet" href="/css/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
-		<link href="/css/prism.css" rel="stylesheet" type="text/css" />
-		<script src="/js/prism.js" type="text/javascript"></script>
     </head>
  
     <body>
@@ -23,7 +21,6 @@
             <div id="write">
                 <span id="input">
                     <div id="message" contenteditable="true" class="editable">
-					
 					</div>
                 </span>
 				<span id="sendMessage" class="backgroundSend"/>
@@ -32,6 +29,7 @@
 				<a class="basicText showEmoticons fancybox.ajax button imgEmoticon" href="/html/showAvailableEmoticons.html"></a>
 				<a class="basicText sendImage fancybox.ajax button imgSendImage" href="/html/popinImage.html"></a>
 				<a id="showAliasForm" class="basicText button fancybox.ajax button imgChooseAlias" href="/html/alias.html"></a>
+				<a id="selectLanguageToHighLight" class="basicText button fancybox.ajax button imgSendCode" href="/html/selectLanguageToHighlight.html"></a>
 				<form id="sendFile" enctype="multipart/form-data" method="post">
 					<input type="file" name="upload">
 					<input type="submit" value="Upload Image" name="submit">
@@ -41,5 +39,7 @@
         <script src="../socket.io/socket.io.js"></script>
 		<script src="/js/tools.js"></script>
         <script src="/js/chat.js"></script>
+		<script src="/js/prism.js" type="text/javascript"></script>
+		<link href="/css/prism.css" rel="stylesheet" type="text/css" />
     </body>
 </html>
