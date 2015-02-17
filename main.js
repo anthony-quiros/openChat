@@ -3,7 +3,8 @@ var app = express();
 var server = require('http').Server(app); 
 var io = require('socket.io')(server);
 
-var session = require("cookie-session");
+var session = require("express-session");
+var store = new session.MemoryStore();
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser');
 
@@ -24,7 +25,12 @@ var listOfUsers = new Array();
 var folderName = conf.folderName;
 
 app.use(cookieParser())
-	.use(session({secret: 'todotopsecret'}))
+	.use(session({
+		secret: 'todotopsecret', 
+		store: store,
+		saveUninitialized: true,
+		name: "JSESSIONID",
+	}))
 	.use(bodyParser())
 ;
 
@@ -40,6 +46,18 @@ function sendListOfMessages(socket) {
 };
 function connectionListner(socket) {
 	var socket = socket;
+	var cookies = socket.request.headers.cookie;
+	var idSession = cookies.substr(cookies.indexOf("JSESSIONID")).split(";")[0].trim().split("JSESSIONID=")[1].split(".")[0].split("s%3A")[1];
+	var session = null
+	if(null != store.sessions[idSession]) {
+
+		session = JSON.parse(store.sessions[idSession]);
+	}
+	console.log("ta session", session)
+	if(null != session && null != session.alias) {
+		socket.alias = session.alias;
+		console.log("Tu as déjà un alias :", session.alias);
+	}
 	if(null == socket.alias) {
 		sendListOfMessages(socket);
 		addAlias(socket, true, null);
@@ -78,6 +96,8 @@ function connectionListner(socket) {
 		if(aliasExist) {
 			if(null != alias && '' != alias) {
 				socket.alias = alias;
+				session.alias = alias;
+				store.set(idSession, session, null);
 				listOfUsers.push(alias);
 				console.log(socket.alias);
 			} else {
