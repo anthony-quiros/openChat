@@ -203,20 +203,21 @@ function initChatPopins(){
 	
 	//Popin d'envoi de code
 	$('#selectLanguageToHighLight').fancybox({
-		minWidth	: 520,
-		minHeight	: 768,
-		width	: 1024,
-		height	: 768,
+
 		fitToView	: false,
 		autoSize	: false,
 		closeClick	: false,
 		openEffect	: 'none',
 		closeEffect	: 'none',
-		beforeShow:function(){
-			$('#codeEnter').keyup(function (e){
-				var message = $('#codeEnter').html();
-				console.log(message);
-				$('#codePreview').html("<pre><code class=\"language-javascript\">" + message + "</code></pre>");
+		beforeShow:function(){	
+			$("#sendCodeMessage").click(function() {
+				var language = $("input[name=group1]:checked").val();
+				var message = "<pre><code class=\"language-"+language+"\">" + $("#codeEnter").text() + "</code></pre>";
+				var messageToAppend = isEncHTML(message) ? decHTMLifEnc(message) : message;
+				socket.emit("message", messageToAppend);
+				createMessageElement(null, messageToAppend);
+				$("#codeEnter").html("");
+				$.fancybox.close();
 				Prism.highlightAll();
 			});
 		}

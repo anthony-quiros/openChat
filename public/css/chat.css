@@ -133,6 +133,10 @@ body {
 	background : url(../images/button_selectLanguageToHighlight-97x46.png);
 }
 
+.backgroundSendCode {
+	background : url(../images/button_send-97x46.png);
+}
+
 .alias {
 	text-align: center;
 }
@@ -154,10 +158,19 @@ table, td{
 	cursor: pointer;
 }
 
-.backgroundSend {
-	background-image: url("../images/send-97x89.png");
+.backgroundSend{
 	width : 97px;
 	height : 89px;
+}
+
+.backgroundSendCode{
+	width : 97px;
+	height : 46px;
+	float: right;
+}
+
+.backgroundSend {
+	background-image: url("../images/send-97x89.png");
 }
 
 #sendFile {
@@ -166,20 +179,8 @@ table, td{
 	margin-top: 10px;
 }
 
-#popinSelectLanguageToHighlight, #codeEnter{
-	height : 100%;
-}
-
 #codeEnter {
-    height: 95%;
-	width: 45%;
-	float: left;
-}
-
-#codePreview {
-	border: 1px solid;
-	margin-left: 15px;
-	height: 95%;
-	width: 46%;
+	min-height: 530px;	
+	width: 99%;
 	float: left;
 }
