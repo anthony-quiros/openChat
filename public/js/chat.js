@@ -1,4 +1,5 @@
 var socket = io.connect(window.location.host);
+var privateAlias;
 var emoticons = [
 	[":)","Veryhappy.gif"],
 	[":s","dizzy.gif"],
@@ -12,6 +13,31 @@ var keys = {};
 function getListOfMessages() {
 	return document.getElementById("listOfMessages");
 };
+
+
+function removeMemberElement(alias) {
+	var member = document.getElementById("member"+alias);
+	if(null != member) {
+		member.remove();
+	}
+}
+
+function createMemberElement(alias) {
+	if(null == document.getElementById("member"+alias) && alias != privateAlias) {
+		var list = document.getElementById("contentLeft");
+		var memberElement = document.createElement("div");
+		var avatarElement = document.createElement("div");
+		var aliasElement = document.createElement("span");
+		memberElement.setAttribute("id", "member"+alias);
+		memberElement.setAttribute("class", "member");
+		avatarElement.setAttribute("class", "avatar");
+		aliasElement.setAttribute("class", "alias");
+		aliasElement.innerHTML = alias;
+		memberElement.appendChild(avatarElement);
+		memberElement.appendChild(aliasElement);
+		list.appendChild(memberElement);
+	}
+}
 
 function createMessageElement(alias, message, date) {
 	var list = document.getElementById("listOfMessages");
@@ -103,6 +129,7 @@ function sendAlias() {
 function getAliasACK(response) {
 	if(response.result) {
 		cookiesManager.createCookie("alias", response.alias, 10);
+		privateAlias = response.alias;
 		$('.fancybox-close').click();
 	} else {
 		alert(response.message);
@@ -141,6 +168,8 @@ socket.on('image', getImage);
 socket.on("alias", showAliasForm);
 socket.on("download", getFile);
 socket.on("aliasACK", getAliasACK);
+socket.on("join", createMemberElement);
+socket.on("left", removeMemberElement);
 socket.emit("historic");
 
 /*socket.on("alias", sendAlias);*/

@@ -15,26 +15,30 @@
 				<img src="/images/Title_logo-800x150.png" alt="logo" width="500" height="94"/>
 		   </div> 
         </div>
-        <div id="content">
-            <div id="listOfMessages">
-                
-            </div>
-            <div id="write">
-                <span id="input">
-                    <div id="message" contenteditable="true" class="editable">
-					</div>
-                </span>
-				<span id="sendMessage" class="backgroundSend"/>
-            </div>
-			<div class="commands">
-				<a class="basicText showEmoticons fancybox.ajax button imgEmoticon" href="/html/showAvailableEmoticons.html"></a>
-				<a class="basicText sendImage fancybox.ajax button imgSendImage" href="/html/popinImage.html"></a>
-				<a id="showAliasForm" class="basicText button fancybox.ajax button imgChooseAlias" href="/html/alias.html"></a>
-				<a id="selectLanguageToHighLight" class="basicText button fancybox.ajax button imgSendCode" href="/html/selectLanguageToHighlight.html"></a>
-				<form id="sendFile" enctype="multipart/form-data" method="post">
-					<input type="file" name="upload">
-					<input type="submit" value="Upload Image" name="submit">
-				</form>
+       	<div id="content">
+        	<div id="contentLeft">
+        	</div>
+	        <div id="contentRight">
+	            <div id="listOfMessages">
+	                
+	            </div>
+	            <div id="write">
+	                <span id="input">
+	                    <div id="message" contenteditable="true" class="editable">
+						</div>
+	                </span>
+					<span id="sendMessage" class="backgroundSend"/>
+	            </div>
+				<div class="commands">
+					<a class="basicText showEmoticons fancybox.ajax button imgEmoticon" href="/html/showAvailableEmoticons.html"></a>
+					<a class="basicText sendImage fancybox.ajax button imgSendImage" href="/html/popinImage.html"></a>
+					<a id="showAliasForm" class="basicText button fancybox.ajax button imgChooseAlias" href="/html/alias.html"></a>
+					<a id="selectLanguageToHighLight" class="basicText button fancybox.ajax button imgSendCode" href="/html/selectLanguageToHighlight.html"></a>
+					<form id="sendFile" enctype="multipart/form-data" method="post">
+						<input type="file" name="upload">
+						<input type="submit" value="Upload Image" name="submit">
+					</form>
+				</div>
 			</div>
 		</div>
         <script src="../socket.io/socket.io.js"></script>

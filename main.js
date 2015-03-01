@@ -34,6 +34,13 @@ function addAlias(socket, isFirstTime, message) {
 	socket.emit("alias", {"isFirstTime" : isFirstTime, "message" : message});
 };
 
+function sendListOfAlias(socket) {
+	for (alias in listOfUsers) {
+		log.info("L'alias en cours est", alias);
+		socket.emit("join", listOfUsers[alias]);
+	};
+}
+
 function checkAndAddAlias(socket, alias) {
 	log.info("Votre alias :", alias);
 	var aliasExist = listOfUsers.indexOf(alias) < 0;
@@ -45,6 +52,8 @@ function checkAndAddAlias(socket, alias) {
 			socket.emit("aliasACK", {alias: alias, result: true});
 			var message = { message : alias + " joined", alias: alias, date : getDate()};
 			socket.broadcast.emit("message", message);
+			socket.broadcast.emit('join', socket.alias);
+			sendListOfAlias(socket);
 		} else {
 			socket.emit("aliasACK", {alias: alias, result: false, message: "Can't be empty"});
 		}
@@ -52,7 +61,7 @@ function checkAndAddAlias(socket, alias) {
 		socket.emit("aliasACK", {alias: alias, result: false, message: "Is already used"});
 	}
 	log.info("Vos alias :", listOfUsers);
-}
+};
 
 function sendListOfMessages(socket) {
 	for (message in listOfMessages) {
@@ -107,6 +116,7 @@ function connectionListner(socket) {
 			listOfUsers.splice(index, 1);
 			var message = { message : socket.alias + " left", alias: socket.alias, date : getDate()};
 			socket.broadcast.emit('message', message);
+			socket.broadcast.emit('left', socket.alias);
 	    	log.info(socket.alias, 'has left');
 		}
    });
