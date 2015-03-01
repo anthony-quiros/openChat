@@ -13,7 +13,7 @@ function getListOfMessages() {
 	return document.getElementById("listOfMessages");
 };
 
-function createMessageElement(alias, message) {
+function createMessageElement(alias, message, date) {
 	var list = document.getElementById("listOfMessages");
 	var messageClass = (null == alias) ? 'fromMe' : 'notFromMe';
 	var myAlias = (null == alias) ? 'You' : alias;
@@ -22,6 +22,7 @@ function createMessageElement(alias, message) {
 	var contentElement = document.createElement("div");
 	var aliasSpan = document.createElement("span");
 	messageElement.setAttribute("class", messageClass);
+	messageElement.setAttribute("title", date);
 	aliasElement.setAttribute("class", "alias");
 	aliasSpan.innerHTML = myAlias;
 	aliasElement.appendChild(aliasSpan);
@@ -34,9 +35,9 @@ function createMessageElement(alias, message) {
 };
 
 
-var getMessage = function(message, alias) {
-	var messageToAppend = isEncHTML(message) ? decHTMLifEnc(message) : message;
-	createMessageElement(alias, messageToAppend);
+var getMessage = function(message) {
+	var messageToAppend = isEncHTML(message.message) ? decHTMLifEnc(message.message) : message.message;
+	createMessageElement(message.alias, messageToAppend, message.date);
 	Prism.highlightAll();
 };
 
@@ -71,13 +72,18 @@ function sendMessage() {
 	var message = $("#message").html();
 	var messageToAppend = isEncHTML(message) ? decHTMLifEnc(message) : message;
 	socket.emit("message", messageToAppend);
-	createMessageElement(null, messageToAppend);
-	$("#message").html("");
-	
-	//On rafraichit la colorisation syntaxique
-	Prism.highlightAll();
 }
-
+function getMessageACK(result) {
+	if(result.result) {
+		console.log(result);
+		var messageToAppend = isEncHTML(result.message.message) ? decHTMLifEnc(result.message.message) : result.message.message;
+		createMessageElement(null, messageToAppend, result.message.date);
+		$("#message").html("");
+	
+		//On rafraichit la colorisation syntaxique
+		Prism.highlightAll();
+	}
+}
 function showAliasForm (request) {
 	if(!request.isFirstTime) {
 		$('.alias #errorMessage').text = request.message;
@@ -91,9 +97,18 @@ function sendAlias() {
 	var alias = $('#txtAlias').val();
 	if('' != alias) {
 		socket.emit('alias', alias);
-		$('.fancybox-close').click();
 	}
 }
+
+function getAliasACK(response) {
+	if(response.result) {
+		cookiesManager.createCookie("alias", response.alias, 10);
+		$('.fancybox-close').click();
+	} else {
+		alert(response.message);
+	}
+}
+
 function createEmoticonElement(fileName) {
 	var elt = document.createElement("img");
 	elt.setAttribute("src", fileName);
@@ -109,16 +124,25 @@ function getFile(fileUrl, fileName, alias) {
 		this.appendChild(link);
 	});
 };
-
-function getHistoric(message) {
-	getMessage(message.message, message.alias);
-};
+// Dropzone.options.myAwesomeDropzone = {
+//   paramName: "file", // The name that will be used to transfer the file
+//   maxFilesize: 2, // MB
+//   accept: function(file, done) {
+//     if (file.name == "justinbieber.jpg") {
+//       done("Naha, you don't.");
+//     }
+//     else { done(); }
+//   }
+// };
 
 socket.on('message', getMessage);
+socket.on('messageACK', getMessageACK);
 socket.on('image', getImage);
 socket.on("alias", showAliasForm);
 socket.on("download", getFile);
-socket.on("historic", getHistoric);
+socket.on("aliasACK", getAliasACK);
+socket.emit("historic");
+
 /*socket.on("alias", sendAlias);*/
 document.getElementById("sendMessage").addEventListener("click", sendMessage);
 

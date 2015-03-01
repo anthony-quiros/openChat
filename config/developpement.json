@@ -1,5 +1,7 @@
 {
 	"port" : "8080",
 	"folderName" : "/uploads",
-	"listOfMessagesSize" : 10
+	"listOfMessagesSize" : 10,
+	"cookieSecret" : "monkeyDluffy",
+	"nameOfCookieSession" : "JSESSIONID"
 }

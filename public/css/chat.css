@@ -13,8 +13,6 @@ body {
 	min-height: 600px;
 	background-color: #EFF2F4; 
 	padding: 50px;
-	float: left;
-	margin-left: 20%;
 	border: 5px black solid;
 }
 
@@ -27,6 +25,7 @@ body {
 #listOfMessages div.fromMe , #listOfMessages div.notFromMe {
 	margin-bottom: 9px;
 	display: table-row;
+	cursor: pointer;
 }
 
 #listOfMessages div.alias, #listOfMessages div.content {

@@ -2,10 +2,7 @@ var express = require("express");
 var app = express();
 var server = require('http').Server(app); 
 var io = require('socket.io')(server);
-
-var session = require("express-session");
-var store = new session.MemoryStore();
-var cookieParser = require('cookie-parser')
+var cookie = require('cookie');
 var bodyParser = require('body-parser');
 
 var validator = require("validator");
@@ -19,61 +16,71 @@ var fsExtra   = require('fs-extra');
 var util = require('util');
 var path = require("path");
 
+var LogManager = require('log-manager');
+var log = LogManager.getLogger();
+
 var listOfMessages = new FifoArray(conf.listOfMessagesSize);
 var listOfUsers = new Array();
 
 var folderName = conf.folderName;
 
-app.use(cookieParser())
-	.use(session({
-		secret: 'todotopsecret', 
-		store: store,
-		saveUninitialized: true,
-		name: "JSESSIONID",
-	}))
-	.use(bodyParser())
-;
 
+function getDate() {
+	var now = new Date();
+	return now.getDate() +"/" + now.getUTCMonth() + "/" + now.getFullYear() + " " 
+		+ now.getHours() + ":" + now.getMinutes()+ ":" + now.getMilliseconds();
+}
 function addAlias(socket, isFirstTime, message) {
 	socket.emit("alias", {"isFirstTime" : isFirstTime, "message" : message});
 };
 
+function checkAndAddAlias(socket, alias) {
+	log.info("Votre alias :", alias);
+	var aliasExist = listOfUsers.indexOf(alias) < 0;
+	if(aliasExist) {
+		if(null != alias && '' != alias) {
+			socket.alias = alias;
+			listOfUsers.push(alias);
+			log.info(socket.alias);
+			socket.emit("aliasACK", {alias: alias, result: true});
+			var message = { message : alias + " joined", alias: alias, date : getDate()};
+			socket.broadcast.emit("message", message);
+		} else {
+			socket.emit("aliasACK", {alias: alias, result: false, message: "Can't be empty"});
+		}
+	} else {
+		socket.emit("aliasACK", {alias: alias, result: false, message: "Is already used"});
+	}
+	log.info("Vos alias :", listOfUsers);
+}
+
 function sendListOfMessages(socket) {
 	for (message in listOfMessages) {
-		socket.emit("historic", listOfMessages[message]);
-		console.log("Le message", message);
+		socket.emit("message", listOfMessages[message]);
 	};
 };
 function connectionListner(socket) {
 	var socket = socket;
-	var cookies = socket.request.headers.cookie;
-	var idSession = cookies.substr(cookies.indexOf("JSESSIONID")).split(";")[0].trim().split("JSESSIONID=")[1].split(".")[0].split("s%3A")[1];
-	var session = null
-	if(null != store.sessions[idSession]) {
-
-		session = JSON.parse(store.sessions[idSession]);
-	}
-	console.log("ta session", session)
-	if(null != session && null != session.alias) {
-		socket.alias = session.alias;
-		console.log("Tu as déjà un alias :", session.alias);
+	var cookies = cookie.parse(socket.request.headers.cookie);
+	log.info("vos cookies",cookies);
+	if(null != cookies.alias) {
+		checkAndAddAlias(socket, cookies.alias);
 	}
 	if(null == socket.alias) {
-		sendListOfMessages(socket);
 		addAlias(socket, true, null);
 	}
-	console.log('New connection from :', socket.handshake.address);
+
+	log.info('New connection from :', socket.handshake.address);
 	socket.on('message', function (message) {
 		if(socket.alias) {
 			if(null != message && '' != message) {
 				var alias = socket.alias;
-				console.log("message envoyé : ", validator.escape(message));
-				socket.broadcast.emit('message', validator.escape(message), alias);
-				listOfMessages.push({
-					"message" : message,
-					"alias" : alias
-				});
-				console.log("historique", listOfMessages);
+				log.info("message envoyé : ", validator.escape(message));
+				var message = { message : validator.escape(message), alias: alias, date : getDate()};
+				socket.broadcast.emit('message', message);
+				socket.emit('messageACK', {message: message, result: true});
+				listOfMessages.push(message);
+				log.info("historique", listOfMessages);
 			}
 		} else {
 			addAlias(socket, false, "Alias !!!!!");
@@ -82,7 +89,7 @@ function connectionListner(socket) {
 
 	socket.on('image', function (url, width, height){
 		if(socket.alias) {
-			console.log("image : ", url, "size : ", height, "x", width);
+			log.info("image : ", url, "size : ", height, "x", width);
 			socket.broadcast.emit('image', url, width, height);
 		} else {
 			addAlias(socket, false, "Alias !!!!!");
@@ -90,28 +97,17 @@ function connectionListner(socket) {
 	});
 
 	socket.on("alias", function(alias) {
-		console.log("Votre alias :", alias);
-		console.log("Vos alias :", listOfUsers);
-		var aliasExist = listOfUsers.indexOf(alias) < 0;
-		if(aliasExist) {
-			if(null != alias && '' != alias) {
-				socket.alias = alias;
-				session.alias = alias;
-				store.set(idSession, session, null);
-				listOfUsers.push(alias);
-				console.log(socket.alias);
-			} else {
-				addAlias(socket, false, "Try again");
-			}
-		} else {
-			addAlias(socket, false, alias + " is already used");
-		}
+		checkAndAddAlias(socket, alias);
 	});
+
+	socket.on("historic", function () {sendListOfMessages(socket);});
 	socket.on('disconnect', function() {
 		var index = listOfUsers.indexOf(socket.alias);
 		if(index >= 0) {
 			listOfUsers.splice(index, 1);
-	    	console.log(socket.alias, 'has left');
+			var message = { message : socket.alias + " left", alias: socket.alias, date : getDate()};
+			socket.broadcast.emit('message', message);
+	    	log.info(socket.alias, 'has left');
 		}
    });
 };
@@ -136,7 +132,7 @@ function sendFile(request, result) {
 	var myResult = result;
 	 var form = new formidable.IncomingForm();
     form.parse(myRequest, function(err, fields, files) {
-	console.log("upload started");
+	log.info("upload started");
       myResult.writeHead(200, {'content-type': 'text/plain'});
       myResult.write('received upload:\n\n');
       myResult.end(util.inspect({fields: fields, files: files}));
@@ -152,7 +148,7 @@ function sendFile(request, result) {
                 if (err) {
                     console.error(err);
                 } else {
-                    console.log("success!")
+                    log.info("success!")
                     fsExtra.remove(temp_path);
                     io.sockets.emit("download", folderName + "/" + file_name, file_name, "test");
                 }
@@ -160,11 +156,11 @@ function sendFile(request, result) {
         });
 
  	form.on('error', function (fields, files) {
-     	console.log("Erreur lors du téléchargement");
+     	log.info("Erreur lors du téléchargement");
      });
      form.on('progress', function(bytesReceived, bytesExpected) {
         var percent_complete = (bytesReceived / bytesExpected) * 100;
-        console.log(percent_complete.toFixed(2));
+        log.info(percent_complete.toFixed(2));
     });
     return;
 };
@@ -177,5 +173,5 @@ function postSendFile(request, result){
 app.get("/", chat)
 .post("/", sendFile)
 .use(notExist)
-console.log("PORT : ", conf.port);
+log.info("PORT : ", conf.port);
 server.listen(conf.port);
