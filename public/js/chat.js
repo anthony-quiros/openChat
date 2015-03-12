@@ -1,3 +1,4 @@
+var myDropzone;
 var socket = io.connect(window.location.host);
 var privateAlias;
 var emoticons = [
@@ -310,12 +311,28 @@ function initChatPopins(){
 	});
 }
 function initDropZone() {
-	Dropzone.options.myAwesomeDropzone = {
-	  	init: function() {
-	    	this.on("dragend", function(file) { alert("Success file."); });
-  		}
-	};
+	Dropzone.autoDiscover = false;
+	myDropzone = new Dropzone("#contentLeftBottom form");
+	myDropzone.on("drop", 
+		function(event) {
+			myDropzone.removeAllFiles();
+		}
+	);
+	myDropzone.on(Dropzone.SUCCESS, 
+		function(file) {
+			var uploadElement = file.previewElement;
+			if(null != uploadElement) {
+				uploadElement.addEventListener("click", function() {
+					myDropzone.removeAllFiles();
+				});
+			}
+		}
+	);
+
 };
+$( document ).load(function() {
+	initDropZone();	
+});
 
 $( document ).ready(function() {
 	initChatPopins();
