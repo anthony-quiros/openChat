@@ -36,9 +36,15 @@ function addAlias(socket, isFirstTime, message) {
 
 function sendListOfAlias(socket) {
 	for (alias in listOfUsers) {
-		log.info("L'alias en cours est", alias);
 		socket.emit("join", listOfUsers[alias]);
 	};
+}
+
+function sendCode(socket, code) {
+	var message = { message : code, alias: socket.alias, date : getDate()};
+	log.info(socket.alias);
+	socket.broadcast.emit("code", message);
+	socket.emit("codeACK", message);
 }
 
 function checkAndAddAlias(socket, alias) {
@@ -70,10 +76,13 @@ function sendListOfMessages(socket) {
 };
 function connectionListner(socket) {
 	var socket = socket;
-	var cookies = cookie.parse(socket.request.headers.cookie);
-	log.info("vos cookies",cookies);
-	if(null != cookies.alias) {
-		checkAndAddAlias(socket, cookies.alias);
+	var requestCookie = socket.request.headers.cookie
+	if(null != requestCookie) {
+		var cookies = cookie.parse(requestCookie);
+		log.info("vos cookies",cookies);
+		if(null != cookies.alias) {
+			checkAndAddAlias(socket, cookies.alias);
+		}
 	}
 	if(null == socket.alias) {
 		addAlias(socket, true, null);
@@ -107,6 +116,11 @@ function connectionListner(socket) {
 
 	socket.on("alias", function(alias) {
 		checkAndAddAlias(socket, alias);
+	});
+
+	socket.on("code", function(code) {
+		log.info("CODE", code);
+		sendCode(socket, code);
 	});
 
 	socket.on("historic", function () {sendListOfMessages(socket);});

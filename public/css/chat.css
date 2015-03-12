@@ -7,30 +7,43 @@ body {
 	margin: auto;
 	text-align: center;
 }
+
+#content {
+	width: 900px;
+	margin: auto;
+}
+
 #contentRight {
 	float: right;
-	width: 999px;
-	margin: auto;
+	width: 720px;
 	min-height: 600px;
 	background-color: #EFF2F4; 
-	padding: 50px;
+	padding: 10px;
 	border: 5px black solid;
 }
 
 #contentLeft {
 	float: left;
 	margin: auto;
-	min-height: 458px;
 	background-color: #EFF2F4;
 	width: 135px;
 	border: 5px black solid;
-	height: 458px;
+	height: 712px;
 }
+
+#contentLeftTop {
+	height: 500px;
+}
+
 
 #contentLeft .member {
 	margin-left: 10px;
 	margin-top: 20px;
 }
+.dropzone .dz-preview {
+	margin-left: -14px;
+}
+
 #contentLeft .member .avatar {
 	float: left;
 	width: 20px;
@@ -103,7 +116,7 @@ body {
 
 #input {
 	display: block;
-	width: 88%;
+	width: 84%;
 	background-color: #FFFFFF;
 	float: left;
 }

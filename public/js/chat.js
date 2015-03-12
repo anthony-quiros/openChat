@@ -24,7 +24,7 @@ function removeMemberElement(alias) {
 
 function createMemberElement(alias) {
 	if(null == document.getElementById("member"+alias) && alias != privateAlias) {
-		var list = document.getElementById("contentLeft");
+		var list = document.getElementById("contentLeftTop");
 		var memberElement = document.createElement("div");
 		var avatarElement = document.createElement("div");
 		var aliasElement = document.createElement("span");
@@ -58,13 +58,24 @@ function createMessageElement(alias, message, date) {
 	messageElement.appendChild(contentElement);
 	list.appendChild(messageElement);
 	list.appendChild(createBrElement());
+	return messageElement;
 };
 
 
 var getMessage = function(message) {
 	var messageToAppend = isEncHTML(message.message) ? decHTMLifEnc(message.message) : message.message;
 	createMessageElement(message.alias, messageToAppend, message.date);
-	Prism.highlightAll();
+	$('#listOfMessages').scrollTop($('#listOfMessages')[0].scrollHeight);
+};
+
+var getCode = function(message) {
+	console.log(message);
+	 hljs.highlightBlock(createMessageElement(message.alias, message.message, message.date));
+};
+
+var getCodeACK = function(message) {
+	console.log(message);
+	 hljs.highlightBlock(createMessageElement(null, message.message, message.date));
 };
 
 function sendImage() {
@@ -105,9 +116,7 @@ function getMessageACK(result) {
 		var messageToAppend = isEncHTML(result.message.message) ? decHTMLifEnc(result.message.message) : result.message.message;
 		createMessageElement(null, messageToAppend, result.message.date);
 		$("#message").html("");
-	
-		//On rafraichit la colorisation syntaxique
-		Prism.highlightAll();
+		$('#listOfMessages').scrollTop($('#listOfMessages')[0].scrollHeight);
 	}
 }
 function showAliasForm (request) {
@@ -170,6 +179,8 @@ socket.on("download", getFile);
 socket.on("aliasACK", getAliasACK);
 socket.on("join", createMemberElement);
 socket.on("left", removeMemberElement);
+socket.on("code", getCode);
+socket.on("codeACK", getCodeACK);
 socket.emit("historic");
 
 /*socket.on("alias", sendAlias);*/
@@ -265,13 +276,11 @@ function initChatPopins(){
 		beforeShow:function(){	
 			$("#sendCodeMessage").click(function() {
 				var language = $("input[name=group1]:checked").val();
-				var message = "<pre><code class=\"language-"+language+"\">" + $("#codeEnter").text() + "</code></pre>";
+				var message = "<pre><code class=\"hljs  "+language+"\">" + document.querySelector("#codeEnter").innerHTML + "</code></pre>";
 				var messageToAppend = isEncHTML(message) ? decHTMLifEnc(message) : message;
-				socket.emit("message", messageToAppend);
-				createMessageElement(null, messageToAppend);
+				socket.emit("code", messageToAppend);
 				$("#codeEnter").html("");
 				$.fancybox.close();
-				Prism.highlightAll();
 			});
 		}
 	});
@@ -300,10 +309,18 @@ function initChatPopins(){
 			}
 	});
 }
+function initDropZone() {
+	Dropzone.options.myAwesomeDropzone = {
+	  	init: function() {
+	    	this.on("dragend", function(file) { alert("Success file."); });
+  		}
+	};
+};
 
 $( document ).ready(function() {
 	initChatPopins();
 	initTextDivWithSmileys();
+	initDropZone();	
 });
 
 /** Upload d'un fichier sur le serveur (par défaut dans le repertoire *uploads/file **/
