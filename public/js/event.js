@@ -1,0 +1,11 @@
+socket.on('message', getMessage);
+socket.on('messageACK', getMessageACK);
+socket.on('image', getImage);
+socket.on("alias", showAliasForm);
+socket.on("download", getFile);
+socket.on("aliasACK", getAliasACK);
+socket.on("join", createMemberElement);
+socket.on("left", removeMemberElement);
+socket.on("code", getCode);
+socket.on("codeACK", getCodeACK);
+socket.emit("historic");

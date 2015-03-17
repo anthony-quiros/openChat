@@ -26,14 +26,43 @@ function createMessageElement(alias, message, date) {
 	return messageElement;
 };
 
-socket.on('message', getMessage);
-socket.on('messageACK', getMessageACK);
-socket.on('image', getImage);
-socket.on("alias", showAliasForm);
-socket.on("download", getFile);
-socket.on("aliasACK", getAliasACK);
-socket.on("join", createMemberElement);
-socket.on("left", removeMemberElement);
-socket.on("code", getCode);
-socket.on("codeACK", getCodeACK);
-socket.emit("historic");
+function sendAlias() {
+	var alias = $('#txtAlias').val();
+	if('' != alias) {
+		socket.emit('alias', alias);
+	}
+}
+
+function getAliasACK(response) {
+	if(response.result) {
+		cookiesManager.createCookie("alias", response.alias, 10);
+		privateAlias = response.alias;
+		$('.fancybox-close').click();
+	} else {
+		alert(response.message);
+	}
+}
+
+function sendMessage() {
+	var message = $("#message").html();
+	var messageToAppend = isEncHTML(message) ? decHTMLifEnc(message) : message;
+	socket.emit("message", messageToAppend);
+}
+
+function getMessageACK(result) {
+	if(result.result) {
+		console.log(result);
+		var messageToAppend = isEncHTML(result.message.message) ? decHTMLifEnc(result.message.message) : result.message.message;
+		createMessageElement(null, messageToAppend, result.message.date);
+		$("#message").html("");
+		$('#listOfMessages').scrollTop($('#listOfMessages')[0].scrollHeight);
+	}
+}
+
+var getMessage = function(message) {
+	var messageToAppend = isEncHTML(message.message) ? decHTMLifEnc(message.message) : message.message;
+	createMessageElement(message.alias, messageToAppend, message.date);
+	$('#listOfMessages').scrollTop($('#listOfMessages')[0].scrollHeight);
+};
+
+document.getElementById("sendMessage").addEventListener("click", sendMessage);

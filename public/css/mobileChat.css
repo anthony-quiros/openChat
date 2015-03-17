@@ -1,10 +1,27 @@
-body {
-	background-color: #A61414;
+html {
+	  max-height: 100vh;
 }
 
+body {
+	background-color: #E6E6E6;
+}
+
+#listOfMessages {
+	max-height: 85vw;
+	overflow-y: auto;
+	margin: auto;
+  	width: 90vw;
+  	background: #FFF;
+}
+#write {
+	width: 90vw;
+	margin: auto;
+}
 #message {
 	background-color: white;
-	width : 350px; 
+	width : 85vw;
+	min-height: 4vh;
+	margin-top: 4vh;
 }
 
 .backgroundSend{
@@ -12,4 +29,25 @@ body {
 	height : 89px;
 	background-image: url("../images/send-97x89.png");
 	float: left;
+}
+
+#aliasPopin {
+	background-color: #FFF;
+	width: 91vw;
+	height: 6vh;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+#aliasPopin.hidden{
+	display: none;
+}
+
+#aliasPopin input {
+  width: 48vw;
+}
+#aliasPopin div {
+  position: relative;
+  margin-right: 8vw;
+  display: inline;
 }
