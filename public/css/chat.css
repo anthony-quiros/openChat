@@ -1,5 +1,5 @@
 body {
-	background-color: #A61414;
+	background-color: #e6e6e6;
 }
 
 #header {
@@ -17,17 +17,15 @@ body {
 	float: right;
 	width: 720px;
 	min-height: 600px;
-	background-color: #EFF2F4; 
+	background-color: #FFFFFF; 
 	padding: 10px;
-	border: 5px black solid;
 }
 
 #contentLeft {
 	float: left;
 	margin: auto;
-	background-color: #EFF2F4;
+	background-color: #FFFFFF;
 	width: 135px;
-	border: 5px black solid;
 	height: 712px;
 }
 
@@ -52,6 +50,10 @@ body {
 	background-size: 20px 20px;
 	margin-left: 10px;
 	margin-right: 15px;
+}
+
+#contentLeftBottom {
+  height: 27%;
 }
 
 #listOfMessages {
@@ -126,8 +128,8 @@ body {
 }
 
 #sendMessage {
-	margin-left: 14px;
-	margin-top: 5px;
+	margin-left: 30px;
+	margin-top: 10px;
 	float: left;
 	cursor: pointer;
 }
@@ -144,22 +146,22 @@ body {
 
 .button {
 	display: block;
-	width: 97px;
+	width: 46px;
 	height: 46px;
 	float: left;
-	margin: 0px 6px 0px 6px;
+	margin: 0px 35px 0px 6px;
 }
 
 .imgEmoticon {
- 	background: url(../images/button_emoticon-97x46.png);
+ 	background: url(../images/button_emoticon.png);
 }
 
 .imgSendImage {
- 	background: url(../images/button_sendImage-97x46.png);
+ 	background: url(../images/button_sendImage.png);
 }
 
 .imgChooseAlias {
-	background: url(../images/button_chooseAlias-97x46.png);
+	background: url(../images/button_chooseAlias.png);
 }
 
 .imgUploadFile {
@@ -167,7 +169,7 @@ body {
 }
 
 .imgSendCode {
-	background : url(../images/button_selectLanguageToHighlight-97x46.png);
+	background : url(../images/button_sendCode.png);
 }
 
 .backgroundSendCode {
@@ -196,8 +198,8 @@ table, td{
 }
 
 .backgroundSend{
-	width : 97px;
-	height : 89px;
+	width : 68px;
+	height : 68px;
 }
 
 .backgroundSendCode{
@@ -207,7 +209,7 @@ table, td{
 }
 
 .backgroundSend {
-	background-image: url("../images/send-97x89.png");
+	background-image: url("../images/button_send.png");
 }
 
 #sendFile {
