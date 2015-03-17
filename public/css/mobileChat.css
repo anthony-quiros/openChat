@@ -1,0 +1,15 @@
+body {
+	background-color: #A61414;
+}
+
+#message {
+	background-color: white;
+	width : 350px; 
+}
+
+.backgroundSend{
+	width : 97px;
+	height : 89px;
+	background-image: url("../images/send-97x89.png");
+	float: left;
+}

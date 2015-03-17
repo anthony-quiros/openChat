@@ -146,7 +146,14 @@ var notExist = function(request, result) {
 
 var chat = function(request, result){
 	result.setHeader("Content-Type", "text/html");
-	result.render("chat.ejs");
+	var MobileDetect = require('mobile-detect'),
+    md = new MobileDetect(request.headers['user-agent']);
+	if(null == md.mobile()){
+		result.render("chat.ejs");	
+	}
+	else{
+		result.render("mobileChat.ejs");
+	}
 };
 
 
