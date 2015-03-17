@@ -7,22 +7,37 @@ body {
 }
 
 #listOfMessages {
-	max-height: 85vw;
+	height: 85vw;
 	overflow-y: auto;
-	margin: auto;
+	margin: 0 5vw
   	width: 90vw;
   	background: #FFF;
 }
 #write {
 	width: 90vw;
-	margin: auto;
+	  margin: 0 5vw;
+	display: table-row;
 }
 #message {
 	background-color: white;
-	width : 85vw;
-	min-height: 4vh;
-	margin-top: 4vh;
+	min-height: 6vh;
 }
+#sendMessage {
+	background: url(/images/button_send.png) no-repeat;
+	background-size: 6vh;
+	width: 13vh;
+	height: 6vh;
+	display: table-cell;
+	vertical-align: middle;
+	background-position: center;
+}
+
+#input {
+	width: 77vw;
+	display: table-cell;
+	vertical-align: middle;
+}
+
 
 .backgroundSend{
 	width : 97px;
@@ -37,6 +52,7 @@ body {
 	height: 6vh;
 	display: table-cell;
 	vertical-align: middle;
+	margin-top: 12px;
 }
 
 #aliasPopin.hidden{
