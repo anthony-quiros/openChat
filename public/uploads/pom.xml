@@ -1,0 +1,1452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<prerequisites>
+		<maven>3.0.4</maven>
+	</prerequisites>
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.snbl</groupId>
+	<artifactId>snbl</artifactId>
+	<packaging>pom</packaging>
+	<version>4.14-SNAPSHOT</version>
+
+	<name>Snowball</name>
+
+	<scm>
+		<connection>scm:svn:https://svn-snowball.forge.cloudbees.com/snowball/snbl</connection>
+		<url>https://svn-snowball.forge.cloudbees.com/snowball/snbl</url>
+	</scm>
+
+	<!-- Global properties -->
+	<properties>
+		<!-- Source Encoding -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- JDK/JRE Version -->
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
+
+		<!-- Log Frameworks Version -->
+		<slf4j.version>1.7.10</slf4j.version>
+		<logback.version>1.1.2</logback.version>
+		<janino.version>2.7.8</janino.version>
+
+		<!-- Tools Version -->
+		<commonscollections.version>4.0</commonscollections.version>
+		<commonslang.version>3.3.2</commonslang.version>
+		<commonsio.version>2.4</commonsio.version>
+		<commonsbean.version>1.9.2</commonsbean.version>
+		<commonsjxpath.version>1.3</commonsjxpath.version>
+		<guava.version>18.0</guava.version>
+		<xstream.version>1.4.8</xstream.version>
+		<simon.version>4.0.1</simon.version>
+		<joda.version>2.7</joda.version>
+
+		<!-- JDBC Version -->
+		<derby.version>10.11.1.1</derby.version>
+		<commonsdbcp.version>1.4</commonsdbcp.version>
+		<jpa2.version>1.0.0.Final</jpa2.version>
+		<hibernate.version>4.3.8.Final</hibernate.version>
+		<mysql.version>5.1.34</mysql.version>
+		<mongodbDriver.version>2.13.0</mongodbDriver.version>
+
+		<!-- IHM Version (Servlet, JSTL, ...) -->
+		<servlet.version>3.0.1</servlet.version>
+		<jstl.api.version>1.2.1</jstl.api.version>
+		<jstl.version>1.2.4</jstl.version>
+		<tiles.version>3.0.5</tiles.version>
+		<xebiaExpire.version>1.0.8</xebiaExpire.version>
+		<simplecaptcha.version>1.2.1-2</simplecaptcha.version>
+		<servletapi.version>7.0.42</servletapi.version>
+
+		<!-- Bean Validation Version -->
+		<beanvalidation.version>1.1.0.Final</beanvalidation.version>
+		<hibernatevalidator.version>5.1.3.Final</hibernatevalidator.version>
+
+		<!-- Spring Version -->
+		<springframework.version>4.1.5.RELEASE</springframework.version>
+		<springsecurity.version>3.2.6.RELEASE</springsecurity.version>
+		<springbatch.version>3.0.3.RELEASE</springbatch.version>
+		<springmobile.version>1.1.3.RELEASE</springmobile.version>
+		<aspectj.version>1.8.5</aspectj.version>
+
+		<!-- Mail Version -->
+		<javamail.version>1.4.7</javamail.version>
+
+		<!-- WebService Version -->
+		<cxf.version>3.0.4</cxf.version>
+		<jettison.version>1.3.7</jettison.version>
+
+		<!-- Testing Version -->
+		<jmockit.version>1.7</jmockit.version>
+		<junit.version>4.12</junit.version>
+		<assertj.version>2.0.0</assertj.version>
+		<festreflect.version>1.4.1</festreflect.version>
+		<mockito.version>1.10.19</mockito.version>
+		<xmlunit.version>1.6</xmlunit.version>
+		<elapi.version>3.0.0</elapi.version>
+		<elimpl.version>1.0</elimpl.version>
+
+		<!-- Eclipse Env Version -->
+		<lombok.version>1.16.2</lombok.version>
+
+		<!-- Code Analysis Version -->
+		<findbugs.version>3.0.0</findbugs.version>
+		<xjc4findbugs.version>2.2.11</xjc4findbugs.version>
+		<pmd.version>3.4</pmd.version>
+		<cobertura.version>2.5.2</cobertura.version>
+
+		<!-- StringTemplate Version -->
+		<stringtemplate.version>4.0.8</stringtemplate.version>
+
+		<!-- External Modules Version -->
+		<ssoclient.version>4.13</ssoclient.version>
+
+		<!-- JSCH (SSH) Version -->
+		<jsch.version>0.1.51</jsch.version>
+
+		<!-- Security -->
+		<jasypt.version>1.9.2</jasypt.version>
+
+		<!-- API Payment ATOS -->
+		<apipayment.version>6.1.5</apipayment.version>
+
+		<!-- jackson version -->
+		<jackson.version>2.5.1</jackson.version>
+
+		<!-- PAC4J OAUTH -->
+		<pac4j.spring.version>1.2.3</pac4j.spring.version>
+		<pac4j.oauth.version>1.5.1</pac4j.oauth.version>
+
+		<!-- google gcm -->
+		<google.gcm.version>1.0.2</google.gcm.version>
+
+		<!-- Maven Lifecycle Plugins Version -->
+		<maven.pluginclean.version>2.6.1</maven.pluginclean.version>
+		<maven.plugininstall.version>2.5.2</maven.plugininstall.version>
+		<maven.pluginsite.version>3.4</maven.pluginsite.version>
+		<maven.plugincompiler.version>3.2</maven.plugincompiler.version>
+		<maven.pluginsurefire.version>2.18.1</maven.pluginsurefire.version>
+		<maven.pluginfailsafe.version>2.18.1</maven.pluginfailsafe.version>
+		<maven.pluginjaxb2.version>1.6</maven.pluginjaxb2.version>
+		<maven.pluginjar.version>2.6</maven.pluginjar.version>
+		<maven.pluginwar.version>2.6</maven.pluginwar.version>
+		<maven.pluginresources.version>2.7</maven.pluginresources.version>
+		<maven.plugindeploy.version>2.8.2</maven.plugindeploy.version>
+		<maven.pluginwagon.version>2.6</maven.pluginwagon.version>
+		<maven.plugincxfcodegen.version>${cxf.version}</maven.plugincxfcodegen.version>
+		<maven.pluginantrun.version>1.8</maven.pluginantrun.version>
+		<maven.pluginlombok.version>1.16.2.0</maven.pluginlombok.version>
+		<maven.pluginbuildnumber.version>1.3</maven.pluginbuildnumber.version>
+		<maven.pluginlicense.version>1.8</maven.pluginlicense.version>
+		<maven.pluginversions.version>2.1</maven.pluginversions.version>
+		<maven.pluginowasp.version>1.2.8</maven.pluginowasp.version>
+		<maven.pluginassembly.version>2.5.3</maven.pluginassembly.version>
+		<maven.pluginreplacer.version>1.5.3</maven.pluginreplacer.version>
+		<maven.pluginminify.version>1.7.4</maven.pluginminify.version>
+
+		<!-- Flying Saucer (Génération de PDF) version -->
+		<flyingsaucer.version>9.0.7</flyingsaucer.version>
+
+		<!-- Rundeck client version -->
+		<rundeck.client.version>12.0</rundeck.client.version>
+
+		<!-- Cloudbeees Sonar analysis fix -->
+		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+		<sonar.junit.reportsPath>${basedir}/target/surefire-reports</sonar.junit.reportsPath>
+		<!--<sonar.java.coveragePlugin>cobertura</sonar.java.coveragePlugin>
+		<sonar.cobertura.reportPath>${basedir}/myReports/myCodeCoverageReport</sonar.cobertura.reportPath>-->
+
+		<!-- Selenium -->
+		<selenium.java.version>2.45.0</selenium.java.version>
+		<selenium.driver.firefox.version>2.45.0</selenium.driver.firefox.version>
+		<selenium.driver.chrome.version>2.45.0</selenium.driver.chrome.version>
+		<selenium.driver.ie.version>2.45.0</selenium.driver.ie.version>
+		<selenium.driver.android.version>0.15.0</selenium.driver.android.version>
+		<pooi.version>3.11</pooi.version>
+		<xml.api.version>1.4.01</xml.api.version>
+		<java.mail.version>1.5.2</java.mail.version>
+		<apache.httpComponents.version>4.4</apache.httpComponents.version>
+		<fluentlenium.version>0.10.3</fluentlenium.version>
+
+	</properties>
+
+	<!-- Specific Repositories -->
+	<repositories>
+		<repository>
+			<id>spring-milestone</id>
+			<name>Spring Maven MILESTONE Repository</name>
+			<url>http://maven.springframework.org/milestone</url>
+		</repository>
+		<repository>
+			<id>gcm-server-repository</id>
+			<url>https://raw.github.com/slorber/gcm-server-repository/master/releases</url>
+		</repository>
+		<repository>
+			<id>sonatype-nexus-snapshots</id>
+			<name>Sonatype Nexus Snapshots</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+	</repository>
+	</repositories>
+
+
+	<!-- Global dependencies -->
+	<dependencyManagement>
+		<dependencies>
+			<!-- pac4J -->
+			<dependency>
+				<groupId>org.pac4j</groupId>
+				<artifactId>pac4j-oauth</artifactId>
+				<version>${pac4j.oauth.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.pac4j</groupId>
+				<artifactId>spring-security-pac4j</artifactId>
+				<version>${pac4j.spring.version}</version>
+			</dependency>
+			<!-- google notification -->
+			<dependency>
+				<groupId>com.google.android.gcm</groupId>
+				<artifactId>gcm-server</artifactId>
+				<version>${google.gcm.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<!-- Log Dependencies (SLF4J, LogBack) -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>log4j-over-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-core</artifactId>
+				<version>${logback.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.janino</groupId>
+				<artifactId>janino</artifactId>
+				<version>${janino.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.janino</groupId>
+				<artifactId>commons-compiler</artifactId>
+				<version>${janino.version}</version>
+			</dependency>
+
+			<!-- Tools Dependencies -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commonslang.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${commonsio.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>commons-beanutils</groupId>
+				<artifactId>commons-beanutils</artifactId>
+				<version>${commonsbean.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-collections4</artifactId>
+				<version>${commonscollections.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>commons-jxpath</groupId>
+				<artifactId>commons-jxpath</artifactId>
+				<version>${commonsjxpath.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.thoughtworks.xstream</groupId>
+				<artifactId>xstream</artifactId>
+				<version>${xstream.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.javasimon</groupId>
+				<artifactId>javasimon-core</artifactId>
+				<version>${simon.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>joda-time</groupId>
+				<artifactId>joda-time</artifactId>
+				<version>${joda.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+
+			<!-- JDBC Driver Dependencies -->
+			<dependency>
+				<groupId>org.apache.derby</groupId>
+				<artifactId>derby</artifactId>
+				<version>${derby.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>commons-dbcp</groupId>
+				<artifactId>commons-dbcp</artifactId>
+				<version>${commonsdbcp.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
+			<!-- IHM Dependencies (Servlet, JSTL, ...) -->
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>${servlet.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<!--  Ajout explicite de JSTL API 1.2.1 sinon la version 1.2.0 est utilisée-->
+			<dependency>
+				<groupId>javax.servlet.jsp.jstl</groupId>
+				<artifactId>javax.servlet.jsp.jstl-api</artifactId>
+				<version>${jstl.api.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish.web</groupId>
+				<artifactId>javax.servlet.jsp.jstl</artifactId>
+				<version>${jstl.version}</version>
+				<scope>runtime</scope>
+				<exclusions>
+					<exclusion>
+						<groupId>javax.servlet</groupId>
+						<artifactId>servlet-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.servlet.jsp</groupId>
+						<artifactId>jsp-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.servlet.jsp.jstl</groupId>
+						<artifactId>jstl-api</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.tiles</groupId>
+				<artifactId>tiles-jsp</artifactId>
+				<version>${tiles.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>nl.captcha</groupId>
+				<artifactId>simplecaptcha</artifactId>
+				<version>${simplecaptcha.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>fr.xebia.web</groupId>
+				<artifactId>xebia-servlet-extras</artifactId>
+				<version>${xebiaExpire.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.tomcat</groupId>
+				<artifactId>tomcat-servlet-api</artifactId>
+				<version>${servletapi.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.tomcat</groupId>
+				<artifactId>tomcat-annotations-api</artifactId>
+				<version>${servletapi.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Bean Validation (JSR-303) -->
+			<dependency>
+				<groupId>javax.validation</groupId>
+				<artifactId>validation-api</artifactId>
+				<version>${beanvalidation.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>${hibernatevalidator.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Spring Dependencies -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${springframework.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${springframework.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${springframework.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${springframework.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
+				<version>${springframework.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context-support</artifactId>
+				<version>${springframework.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${springframework.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${springframework.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-expression</artifactId>
+				<version>${springframework.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${springframework.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${springframework.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Spring complements Dependencies (AspectJ) -->
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjrt</artifactId>
+				<version>${aspectj.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjweaver</artifactId>
+				<version>${aspectj.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjtools</artifactId>
+				<version>${aspectj.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
+			<!-- Spring Security Dependencies -->
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-core</artifactId>
+				<version>${springsecurity.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-config</artifactId>
+				<version>${springsecurity.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-web</artifactId>
+				<version>${springsecurity.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-cas</artifactId>
+				<version>${springsecurity.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-taglibs</artifactId>
+				<version>${springsecurity.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
+			<!-- Spring Mobile -->
+			<dependency>
+				<groupId>org.springframework.mobile</groupId>
+				<artifactId>spring-mobile-device</artifactId>
+				<version>${springmobile.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Spring Batch Dependencies -->
+			<dependency>
+				<groupId>org.springframework.batch</groupId>
+				<artifactId>spring-batch-core</artifactId>
+				<version>${springbatch.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.batch</groupId>
+				<artifactId>spring-batch-infrastructure</artifactId>
+				<version>${springbatch.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Persistence Dependencies (JPA, Hibernate) -->
+			<dependency>
+				<groupId>org.hibernate.javax.persistence</groupId>
+				<artifactId>hibernate-jpa-2.1-api</artifactId>
+				<version>${jpa2.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>${hibernate.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-ehcache</artifactId>
+				<version>${hibernate.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.mongodb</groupId>
+				<artifactId>mongo-java-driver</artifactId>
+				<version>${mongodbDriver.version}</version>
+			</dependency>
+
+			<!-- Mail dependencies -->
+			<dependency>
+				<groupId>javax.mail</groupId>
+				<artifactId>mail</artifactId>
+				<version>${javamail.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- WebService dependencies -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.jaxrs</groupId>
+				<artifactId>jackson-jaxrs-json-provider</artifactId>
+				<version>${jackson.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+				<version>${jackson.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-frontend-jaxws</artifactId>
+				<version>${cxf.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-management</artifactId>
+				<version>${cxf.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-frontend-jaxrs</artifactId>
+				<version>${cxf.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-transports-http</artifactId>
+				<version>${cxf.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-rs-extension-providers</artifactId>
+				<version>${cxf.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-rs-service-description</artifactId>
+				<version>${cxf.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-rs-client</artifactId>
+				<version>${cxf.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.codehaus.jettison</groupId>
+				<artifactId>jettison</artifactId>
+				<version>${jettison.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- StringTemplate dependencies -->
+			<dependency>
+				<groupId>org.antlr</groupId>
+				<artifactId>ST4</artifactId>
+				<version>${stringtemplate.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Atos Origin API Payment -->
+			<dependency>
+				<groupId>com.atosorigin</groupId>
+				<artifactId>apipayment</artifactId>
+				<version>${apipayment.version}</version>
+			</dependency>
+
+			<!-- Tests Dependencies (JUnit, Fest-Assert, Spring Test, XMLUnit, JMockit,
+				Mockito, ...) -->
+			<dependency>
+				<!-- Jmockit must be defined before Junit dependency, in order to be
+					firstly defined in the classpath -->
+				<groupId>com.googlecode.jmockit</groupId>
+				<artifactId>jmockit</artifactId>
+				<version>${jmockit.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.assertj</groupId>
+				<artifactId>assertj-core</artifactId>
+				<version>${assertj.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.easytesting</groupId>
+				<artifactId>fest-reflect</artifactId>
+				<version>${festreflect.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-all</artifactId>
+				<version>${mockito.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>${springframework.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.batch</groupId>
+				<artifactId>spring-batch-test</artifactId>
+				<version>${springbatch.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>xmlunit</groupId>
+				<artifactId>xmlunit</artifactId>
+				<version>${xmlunit.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>javax.el</groupId>
+				<artifactId>javax.el-api</artifactId>
+				<version>${elapi.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>el-impl</groupId>
+				<artifactId>el-impl</artifactId>
+				<version>${elimpl.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<!-- Eclipse Environment Dependencies (lombok) -->
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- SSO client -->
+			<dependency>
+				<groupId>com.snbl.sso</groupId>
+				<artifactId>snbl-sso-client</artifactId>
+				<version>${ssoclient.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.jcraft</groupId>
+				<artifactId>jsch</artifactId>
+				<version>${jsch.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Security Framework (Jasypt) -->
+			<dependency>
+				<groupId>org.jasypt</groupId>
+				<artifactId>jasypt-spring31</artifactId>
+				<version>${jasypt.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jasypt</groupId>
+				<artifactId>jasypt</artifactId>
+				<version>${jasypt.version}</version>
+			</dependency>
+
+			<!-- Génération de PDF -->
+			<dependency>
+				<groupId>org.xhtmlrenderer</groupId>
+				<artifactId>flying-saucer-core</artifactId>
+				<version>${flyingsaucer.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.xhtmlrenderer</groupId>
+				<artifactId>flying-saucer-pdf</artifactId>
+				<version>${flyingsaucer.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>bouncycastle</groupId>
+						<artifactId>bcmail-jdk14</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>bouncycastle</groupId>
+						<artifactId>bcprov-jdk14</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<!-- Rundeck client -->
+			<dependency>
+				<groupId>org.rundeck</groupId>
+				<artifactId>rundeck-api-java-client</artifactId>
+				<version>${rundeck.client.version}</version>
+				<exclusions>
+					<exclusion>  <!-- declare the exclusion here -->
+						<groupId>xerces</groupId>
+						<artifactId>xercesImpl</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<!-- Sélénium -->
+			<dependency>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-java</artifactId>
+				<version>${selenium.java.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-firefox-driver</artifactId>
+				<version>${selenium.driver.firefox.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-chrome-driver</artifactId>
+				<version>${selenium.driver.chrome.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-ie-driver</artifactId>
+				<version>${selenium.driver.ie.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.selendroid</groupId>
+				<artifactId>selendroid-client</artifactId>
+				<version>${selenium.driver.android.version}</version>
+			</dependency>
+			
+			<!-- FluentLenium -->
+			<dependency>
+			    <groupId>org.fluentlenium</groupId>
+			    <artifactId>fluentlenium-core</artifactId>
+			    <version>${fluentlenium.version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>org.fluentlenium</groupId>
+			    <artifactId>fluentlenium-assertj</artifactId>
+			    <version>${fluentlenium.version}</version>
+			</dependency>
+
+			<!-- Dépendances annexes Sélénium -->
+			<dependency>
+				<groupId>xml-apis</groupId>
+				<artifactId>xml-apis</artifactId>
+				<version>${xml.api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.mail</groupId>
+				<artifactId>javax.mail-api</artifactId>
+				<version>${java.mail.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml</artifactId>
+				<version>${pooi.version}</version>
+			</dependency>
+
+			 <dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>${apache.httpComponents.version}</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+
+	<build>
+		<!-- Extension for Cloudbees manual deployment -->
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-webdav-jackrabbit</artifactId>
+				<version>${maven.pluginwagon.version}</version>
+			</extension>
+		</extensions>
+	</build>
+
+
+	<!-- Profiles -->
+	<profiles>
+		<profile>
+			<!-- Default profile : build all modules -->
+			<id>default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+
+			<modules>
+				<module>./snbl-service</module>
+				<module>./snbl-front</module>
+				<module>./snbl-imm</module>
+				<module>./snbl-batch</module>
+			</modules>
+
+			<build>
+				<plugins>
+					<!-- Compiler Plugins configuration -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>${maven.plugincompiler.version}</version>
+						<configuration>
+							<compilerVersion>${maven.compiler.source}</compilerVersion>
+							<source>${maven.compiler.source}</source>
+							<target>${maven.compiler.target}</target>
+							<compilerArgs>
+							<arg>-Xlint</arg>
+							</compilerArgs>
+						</configuration>
+						<inherited>true</inherited>
+					</plugin>
+
+					<!-- Install Plugins configuration -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-install-plugin</artifactId>
+						<version>${maven.plugininstall.version}</version>
+						<inherited>true</inherited>
+					</plugin>
+
+					<!-- Clean Plugins configuration -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-clean-plugin</artifactId>
+						<version>${maven.pluginclean.version}</version>
+						<inherited>true</inherited>
+					</plugin>
+
+					<!-- Site Plugins configuration -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-site-plugin</artifactId>
+						<version>${maven.pluginsite.version}</version>
+						<inherited>true</inherited>
+					</plugin>
+
+					<!-- Testing Launcher Plugins configuration -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>${maven.pluginsurefire.version}</version>
+						<inherited>true</inherited>
+					</plugin>
+
+					<!-- Integration Testing Launcher Plugins configuration -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<version>${maven.pluginfailsafe.version}</version>
+						<inherited>true</inherited>
+					</plugin>
+
+					<!-- Resources Plugins configuration -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-resources-plugin</artifactId>
+						<version>${maven.pluginresources.version}</version>
+						<inherited>true</inherited>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<!-- Profile for build only Front modules -->
+			<id>build.front</id>
+			<modules>
+				<module>./snbl-service</module>
+				<module>./snbl-front</module>
+			</modules>
+		</profile>
+
+		<profile>
+			<!-- Profile for build only Batch modules -->
+			<id>build.batch</id>
+			<modules>
+				<module>./snbl-service</module>
+				<module>./snbl-batch</module>
+			</modules>
+		</profile>
+
+		<profile>
+			<!-- Profile for build only IMM modules -->
+			<id>build.imm</id>
+			<modules>
+				<module>./snbl-service</module>
+				<module>./snbl-imm</module>
+			</modules>
+		</profile>
+
+			<profile>
+			<!-- Profile for build Eclipse Environment -->
+			<id>eclipse.env</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.projectlombok</groupId>
+					<artifactId>lombok</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<profile>
+			<!-- Profile for Analyzing the Source Code -->
+			<id>code.analysis</id>
+			<build>
+				<plugins>
+					<!-- PMD Analysis -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-pmd-plugin</artifactId>
+						<version>${pmd.version}</version>
+						<configuration>
+							<linkXref>true</linkXref>
+							<targetJdk>${maven.compiler.target}</targetJdk>
+							<excludes>
+								<exclude>com/snbl/controller/**/*Form.java</exclude>
+								<exclude>com/snbl/model/**</exclude>
+								<exclude>com/snbl/model/**/*.java</exclude>
+								<exclude>com/snbl/io/**</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+
+					<!-- Code coverage Analysis -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>cobertura-maven-plugin</artifactId>
+						<version>${cobertura.version}</version>
+						<configuration>
+							<formats>
+								<format>xml</format>
+								<format>html</format>
+							</formats>
+							<instrumentation>
+								<excludes>
+									<exclude>com/snbl/model/**</exclude>
+									<exclude>com/snbl/io/**</exclude>
+								</excludes>
+							</instrumentation>
+						</configuration>
+					</plugin>
+
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<!-- Profile for Analyzing the Source Code, after doing delombok on java code -->
+			<id>code.delombok.analysis</id>
+			<!-- If you use it with a SCM (for example SVN), do not forget to do a revert on source code before launch this profile -->
+			<!-- It is for avoid SVN conflit between previous source code changes (when delombok is proceeded on java source) and code in SVN (when SVN update is proceeded) -->
+			<properties>
+				<profile.findbugs>-delombok</profile.findbugs>
+			</properties>
+			<build>
+				<plugins>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>${maven.plugincompiler.version}</version>
+						<configuration>
+							<compilerVersion>${maven.compiler.source}</compilerVersion>
+							<source>${maven.compiler.source}</source>
+							<target>${maven.compiler.target}</target>
+							<fork>true</fork>
+						</configuration>
+						<inherited>true</inherited>
+					</plugin>
+
+					<!-- Copy original java code source in a new directory, in order to delombok the copy -->
+					<!-- And delete it when clean -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>${maven.pluginantrun.version}</version>
+						<inherited>true</inherited>
+						<executions>
+							<execution>
+								<id>copyJavaSourceInLombokDir</id>
+								<phase>generate-sources</phase>
+								<configuration>
+									<tasks>
+										<taskdef name="if" classname="ise.antelope.tasks.IfTask"/>
+										<if>
+											<bool>
+												<available file="src/main/java" type="dir"/>
+											</bool>
+											<copy todir="src/main/lombok" filtering="false" overwrite="true">
+												<fileset dir="src/main/java"/>
+											</copy>
+										</if>
+									</tasks>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>deleteLombokDir</id>
+								<phase>clean</phase>
+								<configuration>
+									<tasks>
+										<taskdef name="if" classname="ise.antelope.tasks.IfTask"/>
+										<if>
+											<bool>
+												<available file="src/main/lombok" type="dir"/>
+											</bool>
+											<delete dir="src/main/lombok" />
+										</if>
+									</tasks>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+						<dependencies>
+							<!-- Dependency for "if" Ant Task -->
+							<dependency>
+								<groupId>org.tigris.antelope</groupId>
+								<artifactId>antelopetasks</artifactId>
+								<version>3.2.10</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+
+					<!-- Delombok source code -->
+					<plugin>
+						<groupId>org.projectlombok</groupId>
+						<artifactId>lombok-maven-plugin</artifactId>
+						<version>${maven.pluginlombok.version}</version>
+						<configuration>
+							<sourceDirectory>src/main/lombok</sourceDirectory>
+							<outputDirectory>src/main/java</outputDirectory>
+						</configuration>
+						<inherited>true</inherited>
+						<executions>
+							<execution>
+								<phase>process-sources</phase>
+								<goals>
+									<goal>delombok</goal>
+								</goals>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>sun.jdk</groupId>
+								<artifactId>tools</artifactId>
+								<version>1.6</version>
+								<scope>system</scope>
+								<systemPath>${java.home}/../lib/tools.jar</systemPath>
+							</dependency>
+						</dependencies>
+					</plugin>
+
+					<!-- Findbugs Analysis -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>findbugs-maven-plugin</artifactId>
+						<version>${findbugs.version}</version>
+						<configuration>
+							<xmlOutput>true</xmlOutput>
+							<effort>Max</effort>
+							<threshold>Low</threshold>
+							<excludeFilterFile>findbugs-excludes.xml</excludeFilterFile>
+						</configuration>
+						<dependencies>
+							<dependency>
+								<!-- needed by findbugs plugin -->
+								<groupId>com.sun.xml.bind</groupId>
+								<artifactId>jaxb-xjc</artifactId>
+								<version>${xjc4findbugs.version}</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+
+					<!-- PMD Analysis -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-pmd-plugin</artifactId>
+						<version>${pmd.version}</version>
+						<configuration>
+							<linkXref>true</linkXref>
+							<targetJdk>${maven.compiler.target}</targetJdk>
+							<excludes>
+								<exclude>com/snbl/io/**</exclude>
+								<exclude>com/snbl/model/**</exclude>
+								<exclude>com/snbl/model/**/*.java</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+
+					<!-- Code coverage Analysis -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>cobertura-maven-plugin</artifactId>
+						<version>${cobertura.version}</version>
+						<configuration>
+							<formats>
+								<format>xml</format>
+								<format>html</format>
+							</formats>
+							<instrumentation>
+								<excludes>
+									<exclude>com/snbl/model/**</exclude>
+									<exclude>com/snbl/io/**</exclude>
+								</excludes>
+							</instrumentation>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>deploy.manual.cloudbees</id>
+			<!-- Exemple to deploy apipayment-6.0.0.jar on release repository : mvn
+				deploy:deploy-file -DgroupId=com.atosorigin -DartifactId=apipayment -Dversion=6.0.0
+				-Dpackaging=jar -Dfile=lib/apipayment.jar -DrepositoryId=snowball-release
+				-Durl=dav:https://repository-snowball.forge.cloudbees.com/release/ NB : the
+				url parameter must begin with "dav:" -->
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-deploy-plugin</artifactId>
+						<version>${maven.plugindeploy.version}</version>
+						<inherited>true</inherited>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<!-- Profile to add build number in generated archives -->
+			<id>tag.archives</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<!-- Generate Build Number (from SCM repository) -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>buildnumber-maven-plugin</artifactId>
+						<version>${maven.pluginbuildnumber.version}</version>
+						<configuration>
+							<doCheck>false</doCheck>
+							<doUpdate>false</doUpdate>
+							<getRevisionOnlyOnce>false</getRevisionOnlyOnce>
+							<useLastCommittedRevision>false</useLastCommittedRevision>
+							<timestampFormat>{0,date,yyyy-MM-dd HH:mm:ss}</timestampFormat>
+							<timestampPropertyName>buildTimestamp</timestampPropertyName>
+						</configuration>
+						<executions>
+							<execution>
+								<id>buildGenericNumber</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>create</goal>
+								</goals>
+							</execution>
+						</executions>
+						<inherited>true</inherited>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jar-plugin</artifactId>
+						<version>${maven.pluginjar.version}</version>
+						<configuration>
+							<archive>
+								<manifest>
+									<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+								</manifest>
+								<manifestEntries>
+									<SCM-Revision>${env.SVN_REVISION}/${project.version}</SCM-Revision>
+									<SCM-Branch>${env.SVN_URL} (${env.BUILD_TAG})</SCM-Branch>
+									<Build-Date>${buildTimestamp}</Build-Date>
+								</manifestEntries>
+							</archive>
+						</configuration>
+						<inherited>true</inherited>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>${maven.pluginwar.version}</version>
+						<configuration>
+							<archive>
+								<manifest>
+									<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+								</manifest>
+								<manifestEntries>
+									<SCM-Revision>${env.SVN_REVISION}/${project.version}</SCM-Revision>
+									<SCM-Branch>${env.SVN_URL} (${env.BUILD_TAG})</SCM-Branch>
+									<Build-Date>${buildTimestamp}</Build-Date>
+								</manifestEntries>
+							</archive>
+						</configuration>
+						<inherited>true</inherited>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<!-- Profile to check list licenses used in third party libraries -->
+			<id>licences.check</id>
+			<properties>
+				<useMissingFile>true</useMissingFile>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>license-maven-plugin</artifactId>
+						<version>${maven.pluginlicense.version}</version>
+						<configuration>
+							<excludedGroups>com\.snbl</excludedGroups>
+							<thirdPartyFilename>THIRD-PARTY.html</thirdPartyFilename>
+							<fileTemplate>./third-party-file-groupByLicense_html.ftl</fileTemplate>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<!-- Profile pour vérifier les versions des dépendances et des plugins -->
+			<id>dependencies.check</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>versions-maven-plugin</artifactId>
+						<version>${maven.pluginversions.version}</version>
+						<configuration>
+							<rulesUri>file:./dependencies-check-rules.xml</rulesUri>
+						</configuration>
+					</plugin>
+					<!-- OWASP dependencies check profile -->
+					<plugin>
+						<groupId>org.owasp</groupId>
+						<artifactId>dependency-check-maven</artifactId>
+						<version>${maven.pluginowasp.version}</version>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<!-- Profile pour exécuter les tests Selenium -->
+			<id>selenium.test</id>
+
+			<modules>
+				<module>./snbl-service</module>
+				<module>./snbl-selenium</module>
+			</modules>
+		</profile>
+
+		<profile>
+			<id>selenium.deploy</id>
+
+			<modules>
+				<module>./snbl-service</module>
+				<module>./snbl-front</module>
+				<module>./snbl-imm</module>
+			</modules>
+
+			<build>
+				<plugins>
+					<!-- Compiler Plugins configuration -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>${maven.plugincompiler.version}</version>
+						<configuration>
+							<compilerVersion>${maven.compiler.source}</compilerVersion>
+							<source>${maven.compiler.source}</source>
+							<target>${maven.compiler.target}</target>
+						</configuration>
+						<inherited>true</inherited>
+					</plugin>
+
+					<!-- Install Plugins configuration -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-install-plugin</artifactId>
+						<version>${maven.plugininstall.version}</version>
+						<inherited>true</inherited>
+					</plugin>
+
+					<!-- Clean Plugins configuration -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-clean-plugin</artifactId>
+						<version>${maven.pluginclean.version}</version>
+						<inherited>true</inherited>
+					</plugin>
+
+					<!-- Site Plugins configuration -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-site-plugin</artifactId>
+						<version>${maven.pluginsite.version}</version>
+						<inherited>true</inherited>
+					</plugin>
+
+					<!-- Resources Plugins configuration -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-resources-plugin</artifactId>
+						<version>${maven.pluginresources.version}</version>
+						<inherited>true</inherited>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+
+	</profiles>
+	<distributionManagement>
+		<repository>
+			<id>snowball-release</id>
+			<url>dav:https://repository-snowball.forge.cloudbees.com/release/</url>
+		</repository>
+		<snapshotRepository>
+			<id>snowball-snapshot</id>
+			<url>dav:https://repository-snowball.forge.cloudbees.com/snapshot/</url>
+		</snapshotRepository>
+	</distributionManagement>
+</project>

@@ -9,9 +9,9 @@ body {
 #listOfMessages {
 	height: 85vw;
 	overflow-y: auto;
-	margin: 0 5vw
   	width: 90vw;
   	background: #FFF;
+  	padding-left: 2vw;
 }
 #write {
 	width: 90vw;
@@ -21,6 +21,7 @@ body {
 #message {
 	background-color: white;
 	min-height: 6vh;
+	padding: 6px;
 }
 #sendMessage {
 	background: url(/images/button_send.png) no-repeat;
@@ -34,8 +35,10 @@ body {
 
 #input {
 	width: 77vw;
+	max-width: 77vw;
 	display: table-cell;
 	vertical-align: middle;
+	word-wrap: break-word;
 }
 
 
@@ -67,3 +70,54 @@ body {
   margin-right: 8vw;
   display: inline;
 }
+.fromMe {
+	text-align: right;
+}
+
+.fromMe {
+	padding-right: 3vw;
+}
+
+.notFromMe {
+	padding-left: 2vw;
+ 	z-index: 1;
+ 	width: 83vw;
+}
+
+svg.bubble {
+  margin-bottom: -8px;
+  z-index: 9000;
+}
+
+.notFromMe .alias {
+	margin-left: 25px;
+}
+
+.fromMe .alias {
+	margin-right: 25px;
+}
+.notFromMe.hljs, .fromMe.hljs {
+  background: none;
+}
+
+.notFromMe .content, .fromMe .content {
+	padding: 5px 0px 5px 25px;
+	border-radius: 0px 8px 8px 8px;
+	background-color: #3CF;
+	display: inline-block;
+	padding-right: 20px;
+	max-width: 70vw;
+	word-wrap: break-word;
+}
+
+.fromMe .content {
+	padding: 5px 25px 5px 0px;
+	border-radius: 8px 0px 8px 8px;
+	padding-left: 20px
+}
+
+.alias {
+	position: relative;
+	margin-top: -20px;
+ }
+

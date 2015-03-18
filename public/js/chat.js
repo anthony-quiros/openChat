@@ -38,16 +38,6 @@ function createMemberElement(alias) {
 	}
 }
 
-var getCode = function(message) {
-	console.log(message);
-	 hljs.highlightBlock(createMessageElement(message.alias, message.message, message.date));
-};
-
-var getCodeACK = function(message) {
-	console.log(message);
-	 hljs.highlightBlock(createMessageElement(null, message.message, message.date));
-};
-
 function sendImage() {
 	var list = document.getElementById("listOfMessages");
 	var imgWidth = parseInt($("#imgWidth").val()) > 0 ? $("#imgWidth").val() : "200";
@@ -283,7 +273,9 @@ $(document).keydown(function (e){
 		sendMessage();
 	}
 });
-
+function closeAliasForm() {
+	$('.fancybox-close').click();
+}
 /**On supprime l'entrée correspondant à la touche relachée dans le tableau des touches pressées **/
 $(document).keyup(function (e) {
     delete keys[e.which];

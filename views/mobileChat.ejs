@@ -6,11 +6,25 @@
 		<script src="/js/tools.js"></script>
 		<script src="../socket.io/socket.io.js"></script>
 		<link rel="stylesheet" href="/css/mobileChat.css">
+		<link rel="stylesheet" href="/css/styles/zenburn.css">
+        <link class="codestyle" rel="stylesheet" href="/css/styles/default.css" disabled="">
+		<link class="codestyle" rel="stylesheet" href="/css/styles/solarized_dark.css" disabled="">
+		<link class="codestyle" rel="stylesheet" href="/css/styles/solarized_light.css" disabled="">
+		<link class="codestyle" rel="stylesheet" href="/css/styles/github.css">
+		<link class="codestyle" rel="stylesheet" href="/css/styles/railscasts.css" disabled="">
+		<link class="codestyle" rel="stylesheet" href="/css/styles/monokai_sublime.css" disabled="">
+		<link class="codestyle" rel="stylesheet" href="/css/styles/mono-blue.css" disabled="">
+		<link class="codestyle" rel="stylesheet" href="/css/styles/tomorrow.css" disabled="">
+		<link class="codestyle" rel="stylesheet" href="/css/styles/color-brewer.css" disabled="">
+		<link class="codestyle" rel="stylesheet" href="/css/styles/zenburn.css" disabled="">
+		<script src="/js/highlight.pack.js"></script>
         <title>Chat</title>
 		<meta name="viewport" content="initial-scale=1">
     </head>
     <body class="mobile">
-		<div id="listOfMessages"> </div>
+		<div id="listOfMessages">
+		</div>
+		
 		<br/>
 		<div id="write">
 			<span id="input">
@@ -20,7 +34,7 @@
 			<div id="sendMessage"></div>
 		</div>
 		<br/>
-		<div id="aliasPopin">
+		<div id="aliasPopin" class="hidden">
 			<label>alias</label>
 			<input id="txtAlias" type="text">
 			<div id="sendAlias">SEND</div>
