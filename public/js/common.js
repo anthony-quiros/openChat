@@ -59,10 +59,16 @@ function getMessageACK(result) {
 	}
 }
 
-var getMessage = function(message) {
-	var messageToAppend = isEncHTML(message.message) ? decHTMLifEnc(message.message) : message.message;
-	createMessageElement(message.alias, messageToAppend, message.date);
+var getMessage = function(result) {
+	var messageToAppend = isEncHTML(result.message.message) ? decHTMLifEnc(result.message.message) : result.message.message;
+	createMessageElement(result.message.alias, messageToAppend, result.message.date);
 	$('#listOfMessages').scrollTop($('#listOfMessages')[0].scrollHeight);
+	if(!result.historique){
+		var sound = new Howl({
+			urls: ['sounds/notification.mp3'],
+			volume: 0.3
+		}).play();
+	}
 };
 
 document.getElementById("sendMessage").addEventListener("click", sendMessage);
