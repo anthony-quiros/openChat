@@ -1,5 +1,16 @@
 var socket = io.connect(window.location.host);
 
+//variables de configuration client
+var notificationVolume;
+var notificationSample;
+
+
+//Initialisation des variables de configuration client
+$.getJSON('clientConfiguration.json', function(data) {
+	notificationVolume = data.notificationVolume;
+	notificationSample = data.notificationSample;
+});
+
 function createBrElement() {
 	return document.createElement("br");
 }
@@ -65,8 +76,8 @@ var getMessage = function(result) {
 	$('#listOfMessages').scrollTop($('#listOfMessages')[0].scrollHeight);
 	if(!result.historique){
 		var sound = new Howl({
-			urls: ['sounds/notification.mp3'],
-			volume: 0.3
+			urls: ['sounds/' + notificationSample],
+			volume: notificationVolume
 		}).play();
 	}
 };
