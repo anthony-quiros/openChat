@@ -1,7 +1,17 @@
 var socket = io.connect(window.location.host);
 
-
 var xmlnsSvg = "http://www.w3.org/2000/svg";
+//variables de configuration client
+var notificationVolume;
+var notificationSample;
+
+
+//Initialisation des variables de configuration client
+$.getJSON('clientConfiguration.json', function(data) {
+	notificationVolume = data.notificationVolume;
+	notificationSample = data.notificationSample;
+});
+
 function createBrElement() {
 	return document.createElement("br");
 }
@@ -87,10 +97,16 @@ var getCodeACK = function(message) {
 	 hljs.highlightBlock(createMessageElement(null, message.message, message.date));
 };
 
-var getMessage = function(message) {
-	var messageToAppend = isEncHTML(message.message) ? decHTMLifEnc(message.message) : message.message;
-	createMessageElement(message.alias, messageToAppend, message.date);
+var getMessage = function(result) {
+	var messageToAppend = isEncHTML(result.message.message) ? decHTMLifEnc(result.message.message) : result.message.message;
+	createMessageElement(result.message.alias, messageToAppend, result.message.date);
 	$('#listOfMessages').scrollTop($('#listOfMessages')[0].scrollHeight);
+	if(!result.historique){
+		var sound = new Howl({
+			urls: ['sounds/' + notificationSample],
+			volume: notificationVolume
+		}).play();
+	}
 };
 hljs.initHighlighting();
 document.getElementById("sendMessage").addEventListener("click", sendMessage);

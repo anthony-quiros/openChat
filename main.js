@@ -57,7 +57,7 @@ function checkAndAddAlias(socket, alias) {
 			log.info(socket.alias);
 			socket.emit("aliasACK", {alias: alias, result: true});
 			var message = { message : alias + " joined", alias: alias, date : getDate()};
-			socket.broadcast.emit("message", message);
+			socket.broadcast.emit("message", {message: message, historique: false});
 			socket.broadcast.emit('join', socket.alias);
 			sendListOfAlias(socket);
 		} else {
@@ -71,7 +71,7 @@ function checkAndAddAlias(socket, alias) {
 
 function sendListOfMessages(socket) {
 	for (message in listOfMessages) {
-		socket.emit("message", listOfMessages[message]);
+		socket.emit("message", {message: listOfMessages[message], historique: true});
 	};
 };
 function connectionListner(socket) {
@@ -95,7 +95,7 @@ function connectionListner(socket) {
 				var alias = socket.alias;
 				log.info("message envoyé : ", validator.escape(message));
 				var message = { message : validator.escape(message), alias: alias, date : getDate()};
-				socket.broadcast.emit('message', message);
+				socket.broadcast.emit('message', {message: message, historique: false});
 				socket.emit('messageACK', {message: message, result: true});
 				listOfMessages.push(message);
 				log.info("historique", listOfMessages);
@@ -129,7 +129,7 @@ function connectionListner(socket) {
 		if(index >= 0) {
 			listOfUsers.splice(index, 1);
 			var message = { message : socket.alias + " left", alias: socket.alias, date : getDate()};
-			socket.broadcast.emit('message', message);
+			socket.broadcast.emit('message', {message: message, historique: false});
 			socket.broadcast.emit('left', socket.alias);
 	    	log.info(socket.alias, 'has left');
 		}

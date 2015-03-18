@@ -1,5 +1,5 @@
 {
-	"port" : "8080",
+	"port" : "80",
 	"folderName" : "/uploads",
 	"listOfMessagesSize" : 10,
 	"cookieSecret" : "monkeyDluffy",
