@@ -58,7 +58,7 @@ body {
 	margin-top: 12px;
 }
 
-#aliasPopin.hidden{
+#aliasPopin.hidden, #write.hidden{
 	display: none;
 }
 
