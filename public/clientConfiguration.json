@@ -1,4 +1,5 @@
 {
 	"notificationVolume" : "0.3",
-	"notificationSample" : "notification.mp3"
+	"notificationSample" : "notification.mp3",
+	"notificationActivated" : true
 }

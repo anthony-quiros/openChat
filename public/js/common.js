@@ -4,12 +4,14 @@ var xmlnsSvg = "http://www.w3.org/2000/svg";
 //variables de configuration client
 var notificationVolume;
 var notificationSample;
+var notificationActivated;
 
 
 //Initialisation des variables de configuration client
 $.getJSON('clientConfiguration.json', function(data) {
 	notificationVolume = data.notificationVolume;
 	notificationSample = data.notificationSample;
+	notificationActivated = data.notificationActivated;
 });
 
 function createBrElement() {
@@ -101,7 +103,7 @@ var getMessage = function(result) {
 	var messageToAppend = isEncHTML(result.message.message) ? decHTMLifEnc(result.message.message) : result.message.message;
 	createMessageElement(result.message.alias, messageToAppend, result.message.date);
 	$('#listOfMessages').scrollTop($('#listOfMessages')[0].scrollHeight);
-	if(!result.historique){
+	if(!result.historique && notificationActivated){
 		var sound = new Howl({
 			urls: ['sounds/' + notificationSample],
 			volume: notificationVolume

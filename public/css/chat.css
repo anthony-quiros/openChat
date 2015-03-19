@@ -69,7 +69,7 @@ body {
 }
 
 #listOfMessages div.alias, #listOfMessages div.content {
-	display: table-cell;
+	display: inline-block;
 }
 
 #listOfMessages div.fromMe {
@@ -78,11 +78,37 @@ body {
 }
 
 #listOfMessages div.notFromMe .content {
-	margin-left: 10px;
+	background-color: #3cf;
+    padding-left: 25px;
+	width: 100%;
+}
+
+.fromMe .content {
+	padding: 5px 5px 5px 0px;
+	border-radius: 8px 0px 8px 8px;
+}
+
+.notFromMe .content{
+	border-radius: 0px 8px 8px 0px;
+}
+
+.fromMe .content {
+	text-align: right;
 }
 
 #listOfMessages div.fromMe .content {
-	margin-right: 10px;
+	background-color: #3cf;
+	width: 99%;
+	max-width: 680px;
+	word-wrap: break-word;
+}
+
+.fromMe svg {
+	float: right;
+}
+
+.notFromMe svg {
+	float: left;
 }
 
 #listOfMessages .alias span{
@@ -180,6 +206,11 @@ body {
 	text-align: center;
 }
 
+.fromMe.hljs{
+  overflow: hidden;
+  background-color: #fff;
+}
+
 .commands {
   padding-top: 1%;
   float: left;
@@ -233,4 +264,9 @@ table, td{
 #listOfMessages::-webkit-scrollbar-thumb {
   background-color: #0ae;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(.5, rgba(255, 255, 255, .2)), color-stop(.5, transparent), to(transparent));
+}
+
+.fromMe.hljs .content pre code{
+  text-align: initial;
+  margin-left: 5px;
 }
