@@ -89,7 +89,7 @@ body {
 }
 
 .notFromMe .content{
-	border-radius: 0px 8px 8px 8px;
+	border-radius: 0px 8px 8px 0px;
 }
 
 .fromMe .content {
@@ -98,7 +98,9 @@ body {
 
 #listOfMessages div.fromMe .content {
 	background-color: #3cf;
-	width: 100%;
+	width: 99%;
+	max-width: 680px;
+	word-wrap: break-word;
 }
 
 .fromMe svg {
@@ -204,6 +206,11 @@ body {
 	text-align: center;
 }
 
+.fromMe.hljs{
+  overflow: hidden;
+  background-color: #fff;
+}
+
 .commands {
   padding-top: 1%;
   float: left;
@@ -257,4 +264,9 @@ table, td{
 #listOfMessages::-webkit-scrollbar-thumb {
   background-color: #0ae;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(.5, rgba(255, 255, 255, .2)), color-stop(.5, transparent), to(transparent));
+}
+
+.fromMe.hljs .content pre code{
+  text-align: initial;
+  margin-left: 5px;
 }
