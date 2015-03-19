@@ -69,7 +69,7 @@ body {
 }
 
 #listOfMessages div.alias, #listOfMessages div.content {
-	display: table-cell;
+	display: inline-block;
 }
 
 #listOfMessages div.fromMe {
@@ -78,11 +78,35 @@ body {
 }
 
 #listOfMessages div.notFromMe .content {
-	margin-left: 10px;
+	background-color: #3cf;
+    padding-left: 25px;
+	width: 100%;
+}
+
+.fromMe .content {
+	padding: 5px 5px 5px 0px;
+	border-radius: 8px 0px 8px 8px;
+}
+
+.notFromMe .content{
+	border-radius: 0px 8px 8px 8px;
+}
+
+.fromMe .content {
+	text-align: right;
 }
 
 #listOfMessages div.fromMe .content {
-	margin-right: 10px;
+	background-color: #3cf;
+	width: 100%;
+}
+
+.fromMe svg {
+	float: right;
+}
+
+.notFromMe svg {
+	float: left;
 }
 
 #listOfMessages .alias span{
