@@ -5,8 +5,10 @@
 		<script src="/js/libs/dropzone.js"></script>
 		<script src="/js/tools.js"></script>
 		<script src="../socket.io/socket.io.js"></script>
+		<link rel="stylesheet" href="/css/common.css">
 		<link rel="stylesheet" href="/css/mobileChat.css">
-		<link rel="stylesheet" href="/css/styles/zenburn.css">
+		<link rel="stylesheet" href="/css/libs/styles/zenburn.css">
+		<link class="codestyle" rel="stylesheet" href="/css/libs/dropzone.css">
         <link class="codestyle" rel="stylesheet" href="/css/libs/styles/default.css" disabled="">
 		<link class="codestyle" rel="stylesheet" href="/css/libs/styles/solarized_dark.css" disabled="">
 		<link class="codestyle" rel="stylesheet" href="/css/libs/styles/solarized_light.css" disabled="">
@@ -22,6 +24,11 @@
 		<meta content="width=device-width, minimum-scale=1, maximum-scale=1,maximum-scale=1, user-scalable=no" name="viewport">
     </head>
     <body class="mobile">
+    <div id="header">
+    	<div id="showMenu"></div>
+    	<span>OPEN CHAT</span>
+    	<img id="logo" src="sdsdsd" title="logo"/>
+    </div>
 		<div id="listOfMessages">
 		</div>
 		
@@ -38,6 +45,11 @@
 			<label>alias</label>
 			<input id="txtAlias" type="text">
 			<div id="sendAlias">SEND</div>
+		</div>
+		<div id="menu" class="hidden">
+			<div class="imgUploadFile">
+				<form action="/" class="dropzone"></form>
+			</div>
 		</div>
 		<script src="/js/common.js"></script>
 		<script src="/js/mobileChat.js"></script>

@@ -210,34 +210,15 @@ function initChatPopins(){
 			}
 	});
 }
-function initDropZone() {
-	Dropzone.autoDiscover = false;
-	myDropzone = new Dropzone("#contentLeftBottom form");
-	myDropzone.on("drop", 
-		function(event) {
-			myDropzone.removeAllFiles();
-		}
-	);
-	myDropzone.on(Dropzone.SUCCESS, 
-		function(file) {
-			var uploadElement = file.previewElement;
-			if(null != uploadElement) {
-				uploadElement.addEventListener("click", function() {
-					myDropzone.removeAllFiles();
-				});
-			}
-		}
-	);
 
-};
 $( document ).load(function() {
-	initDropZone();	
+	initDropZone("#contentLeftBottom form");	
 });
 
 $( document ).ready(function() {
 	initChatPopins();
 	initTextDivWithSmileys();
-	initDropZone();	
+	initDropZone("#contentLeftBottom form");	
 });
 
 /** Upload d'un fichier sur le serveur (par défaut dans le repertoire *uploads/file **/

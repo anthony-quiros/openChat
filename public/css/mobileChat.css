@@ -58,7 +58,7 @@ body {
 	margin-top: 12px;
 }
 
-#aliasPopin.hidden, #write.hidden{
+#aliasPopin.hidden, #write.hidden, .hidden{
 	display: none;
 }
 
@@ -121,3 +121,40 @@ svg.bubble {
 	margin-top: -20px;
  }
 
+ #header {
+ 	display: flex;
+ }
+
+ #header span {
+ 	margin: auto;
+ }
+
+ #header img {
+ 	margin-right: 7vw;
+ }
+
+#header #showMenu {
+ 	width: 36px;
+ 	background: url('../images/button_menu.png') no-repeat;
+ 	background-size: 33px;
+}
+
+div#menu {
+  background-color: #E6E6E6;
+  width: 40px;
+  position: absolute;
+  top: 34px;
+  padding: 5px;
+}
+
+.imgUploadFile{ 
+	width: 33px;
+  	height: 37px;
+  	background-size: 32px;
+  	background-color: #FFF;
+}
+#menu .dropzone.dz-clickable {
+	height: 28px;
+	border: none;
+	background: none;
+}
