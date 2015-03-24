@@ -1,0 +1,23 @@
+.imgEmoticon {
+ 	background: url(../images/button_emoticon.png);
+}
+
+.imgSendImage {
+ 	background: url(../images/button_sendImage.png);
+}
+
+.imgChooseAlias {
+	background: url(../images/button_chooseAlias.png);
+}
+
+.imgUploadFile {
+	background: url(../images/button_dropzone.png);
+}
+
+.imgSendCode {
+	background : url(../images/button_sendCode.png);
+}
+
+.backgroundSendCode {
+	background : url(../images/button_send-97x46.png);
+}

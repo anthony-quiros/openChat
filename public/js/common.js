@@ -110,5 +110,37 @@ var getMessage = function(result) {
 		}).play();
 	}
 };
+
+function initDropZone(selector, hideAfter) {
+	var after = hideAfter;
+	Dropzone.autoDiscover = false;
+	myDropzone = new Dropzone(selector);
+	myDropzone.on("drop", 
+		function(event) {
+			myDropzone.removeAllFiles();
+		}
+	);
+	myDropzone.on(Dropzone.SUCCESS, 
+		function(file) {
+			var uploadElement = file.previewElement;
+			if(null != uploadElement) {
+				if(after) {
+					uploadElement.addEventListener("click", 
+						function() {
+							myDropzone.removeAllFiles();
+						}
+					);
+				} else {
+					setTimeout(
+						function() {
+							myDropzone.removeAllFiles();
+						}
+					,2000);
+				}
+			}
+		}
+	);
+};
+
 hljs.initHighlighting();
 document.getElementById("sendMessage").addEventListener("click", sendMessage);
