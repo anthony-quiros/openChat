@@ -19,6 +19,8 @@ body {
 	min-height: 600px;
 	background-color: #FFFFFF; 
 	padding: 10px;
+	font-family: webChatFont;
+	font-size: 14px;
 }
 
 #contentLeft {
@@ -277,4 +279,9 @@ table, td{
 .fromMe.hljs .content pre code{
   text-align: initial;
   margin-left: 5px;
+}
+
+@font-face {
+    font-family: webChatFont;
+    src: url(../fonts/Sansation_Regular.ttf);
 }
