@@ -24,13 +24,13 @@ body {
 #contentLeft {
 	float: left;
 	margin: auto;
-	background-color: #FFFFFF;
 	width: 135px;
-	height: 712px;
+	height: 683px;
 }
 
 #contentLeftTop {
-	height: 500px;
+	height: 70%;
+	background-color: #FFFFFF;
 }
 
 
@@ -54,6 +54,8 @@ body {
 
 #contentLeftBottom {
   height: 27%;
+  margin-top: 23px;
+  background-color: #fff;
 }
 
 #listOfMessages {
@@ -75,21 +77,23 @@ body {
 #listOfMessages div.fromMe {
 	float: right;
 	clear: right;
+	margin-right: 10px;
 }
 
 #listOfMessages div.notFromMe .content {
-	background-color: #3cf;
-    padding-left: 25px;
+	background-color: #FF0099;
+    margin-left: 10px;
 	width: 100%;
+	padding-left: 10px;
 }
 
 .fromMe .content {
 	padding: 5px 5px 5px 0px;
-	border-radius: 8px 0px 8px 8px;
+	border-radius: 8px 6px 8px 8px;
 }
 
 .notFromMe .content{
-	border-radius: 0px 8px 8px 0px;
+	border-radius: 8px 8px 8px 8px;
 }
 
 .fromMe .content {
@@ -121,6 +125,10 @@ body {
 }
 #listOfMessages .fromMe .alias {
 	float: right;
+}
+
+svg {
+	  display: none;
 }
 
 #listOfMessages .fromMe .alias span {
