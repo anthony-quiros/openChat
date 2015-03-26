@@ -5,7 +5,13 @@ body {
 #header {
 	width: 999px;
 	margin: auto;
-	text-align: center;
+}
+
+h1 {
+  font-family: webChatFont;
+  font-size: 50px;
+  margin: 5px 0 5px 0;
+  text-align: center;
 }
 
 #content {
@@ -38,7 +44,7 @@ body {
 
 #contentLeft .member {
 	margin-left: 10px;
-	margin-top: 20px;
+	padding-top: 10px;
 }
 .dropzone .dz-preview {
 	margin-left: -14px;
