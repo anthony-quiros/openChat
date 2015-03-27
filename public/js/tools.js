@@ -41,3 +41,21 @@ var cookiesManager = {
 		createCookie(name,"",-1);
 	}
 }
+
+/**
+	Detecte s'il y a un hyperlien dans le contenu de l'élément et effectue le forwarding si c'est le cas
+**/
+function detectAndCopyLink(domElement){
+	var textContent = domElement.textContent;
+	var extractedUrl = detectHttpLink(textContent)[0];
+	window.open(extractedUrl);
+
+} 
+
+/**
+	Detecte si le texte passé en argument contient un hyperlien
+**/
+function detectHttpLink(text){
+    	var urlRegex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+		return text.match(urlRegex);		    
+}
