@@ -5,7 +5,13 @@ body {
 #header {
 	width: 999px;
 	margin: auto;
-	text-align: center;
+}
+
+h1 {
+  font-family: webChatFont;
+  font-size: 50px;
+  margin: 5px 0 5px 0;
+  text-align: center;
 }
 
 #content {
@@ -19,24 +25,26 @@ body {
 	min-height: 600px;
 	background-color: #FFFFFF; 
 	padding: 10px;
+	font-family: webChatFont;
+	font-size: 14px;
 }
 
 #contentLeft {
 	float: left;
 	margin: auto;
-	background-color: #FFFFFF;
 	width: 135px;
-	height: 712px;
+	height: 683px;
 }
 
 #contentLeftTop {
-	height: 500px;
+	height: 70%;
+	background-color: #FFFFFF;
 }
 
 
 #contentLeft .member {
 	margin-left: 10px;
-	margin-top: 20px;
+	padding-top: 10px;
 }
 .dropzone .dz-preview {
 	margin-left: -14px;
@@ -54,6 +62,8 @@ body {
 
 #contentLeftBottom {
   height: 27%;
+  margin-top: 23px;
+  background-color: #fff;
 }
 
 #listOfMessages {
@@ -75,21 +85,23 @@ body {
 #listOfMessages div.fromMe {
 	float: right;
 	clear: right;
+	margin-right: 10px;
 }
 
 #listOfMessages div.notFromMe .content {
-	background-color: #3cf;
-    padding-left: 25px;
+	background-color: #FF0099;
+    margin-left: 10px;
 	width: 100%;
+	padding-left: 10px;
 }
 
 .fromMe .content {
 	padding: 5px 5px 5px 0px;
-	border-radius: 8px 0px 8px 8px;
+	border-radius: 8px 6px 8px 8px;
 }
 
 .notFromMe .content{
-	border-radius: 0px 8px 8px 0px;
+	border-radius: 8px 8px 8px 8px;
 }
 
 .fromMe .content {
@@ -121,6 +133,10 @@ body {
 }
 #listOfMessages .fromMe .alias {
 	float: right;
+}
+
+svg {
+	  display: none;
 }
 
 #listOfMessages .fromMe .alias span {
@@ -269,4 +285,9 @@ table, td{
 .fromMe.hljs .content pre code{
   text-align: initial;
   margin-left: 5px;
+}
+
+@font-face {
+    font-family: webChatFont;
+    src: url(../fonts/Sansation_Regular.ttf);
 }

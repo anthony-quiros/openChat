@@ -53,6 +53,9 @@ function createMessageElement(alias, message, date) {
 	messageElement.appendChild(contentElement);
 	list.appendChild(messageElement);
 	list.appendChild(createBrElement());
+	contentElement.addEventListener("click",function (){
+		detectAndCopyLink(this);
+	});
 	return messageElement;
 };
 

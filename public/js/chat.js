@@ -176,8 +176,12 @@ function initChatPopins(){
 		closeEffect	: 'none',
 		beforeShow:function(){	
 			$("#sendCodeMessage").click(function() {
-				var language = $("input[name=group1]:checked").val();
-				var message = "<pre><code class=\"hljs  "+language+"\">" + document.querySelector("#codeEnter").innerHTML + "</code></pre>";
+				var message = "<pre><code class=\"hljs\">" +
+				_.reduce($("#codeEnter").contents(), function(text, node) {
+				    return text + (node.nodeValue || '\n' +
+				        (_.isString(node.textContent) ? node.textContent : node.innerHTML));
+				}, '')
+				 +  "</code></pre>";
 				var messageToAppend = isEncHTML(message) ? decHTMLifEnc(message) : message;
 				socket.emit("code", messageToAppend);
 				$("#codeEnter").html("");
