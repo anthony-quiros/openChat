@@ -4,23 +4,26 @@ showAliasForm = function(e) {
 	document.querySelector("#mask").setAttribute("class", "");
 	if(null != e && null != e.toElement && "myAlias" == e.toElement.parentNode.id) {
 		document.querySelector("#myAlias").removeEventListener("click", showAliasForm);
-	document.querySelector("#myAlias").addEventListener("click", closeAliasForm);
-	return;
-	} 
+		document.querySelector("#myAlias").addEventListener("click", closeAliasForm);
+		return;
+	}
 	document.querySelector("#write").setAttribute("class", "hidden");
 	
 };
 closeAliasForm = function(e) {
-	document.querySelector("#aliasPopin").setAttribute("class", "hidden");
-	document.querySelector("#mask").setAttribute("class", "hidden");
-	document.querySelector("#myAlias .value").innerText = cookiesManager.readCookie("alias");
-	document.querySelector("#txtAlias").value = ""
-	if(null != e && null != e.toElement && "myAlias" == e.toElement.parentNode.id) {
-		document.querySelector("#myAlias").removeEventListener("click", closeAliasForm);
-		document.querySelector("#myAlias").addEventListener("click", showAliasForm);
-		return;
+	var cookieAlias = cookiesManager.readCookie("alias");
+	if(null != cookieAlias) {
+		document.querySelector("#myAlias .value").innerText = cookieAlias;
+		document.querySelector("#aliasPopin").setAttribute("class", "hidden");
+		document.querySelector("#mask").setAttribute("class", "hidden");
+		document.querySelector("#txtAlias").value = ""
+		if(null != e && null != e.toElement && "myAlias" == e.toElement.parentNode.id) {
+			document.querySelector("#myAlias").removeEventListener("click", closeAliasForm);
+			document.querySelector("#myAlias").addEventListener("click", showAliasForm);
+			return;
+		}
+		document.querySelector("#write").setAttribute("class", "");
 	}
-	document.querySelector("#write").setAttribute("class", "");
 };
 showOrHideMenu = function () {
 	var menuElement = document.querySelector("#menu");
