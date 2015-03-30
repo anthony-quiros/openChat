@@ -11,16 +11,19 @@ showAliasForm = function(e) {
 	
 };
 closeAliasForm = function(e) {
-	$("#aliasPopin").setAttribute("class", "hidden");
-	$("#mask").setAttribute("class", "hidden");
-	$("#myAlias .value").innerText = cookiesManager.readCookie("alias");
-	$("#txtAlias").value = ""
-	if(null != e && null != e.toElement && "myAlias" == e.toElement.parentNode.id) {
-		$("#myAlias").removeEventListener("click", closeAliasForm);
-		$("#myAlias").addEventListener("click", showAliasForm);
-		return;
+	var cookieAlias = cookiesManager.readCookie("alias");
+	if(null != cookieAlias) {
+		document.querySelector("#myAlias .value").innerText = cookieAlias;
+		document.querySelector("#aliasPopin").setAttribute("class", "hidden");
+		document.querySelector("#mask").setAttribute("class", "hidden");
+		document.querySelector("#txtAlias").value = ""
+		if(null != e && null != e.toElement && "myAlias" == e.toElement.parentNode.id) {
+			document.querySelector("#myAlias").removeEventListener("click", closeAliasForm);
+			document.querySelector("#myAlias").addEventListener("click", showAliasForm);
+			return;
+		}
+		document.querySelector("#write").setAttribute("class", "");
 	}
-	$("#write").setAttribute("class", "");
 };
 showOrHideMenu = function () {
 	var menuElement = $("#menu");
