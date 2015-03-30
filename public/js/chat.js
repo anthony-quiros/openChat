@@ -11,19 +11,19 @@ var emoticons = [
 //Un tableau contenant l'ensemble des touches pressées par l'utilisateur
 var keys = {};
 function getListOfMessages() {
-	return document.getElementById("listOfMessages");
+	return $("#listOfMessages");
 };
 
 function removeMemberElement(alias) {
-	var member = document.getElementById("member"+alias);
+	var member = $("#member"+alias);
 	if(null != member) {
 		member.remove();
 	}
 }
 
 function createMemberElement(alias) {
-	if(null == document.getElementById("member"+alias) && alias != privateAlias) {
-		var list = document.getElementById("contentLeftTop");
+	if(null == $("#member"+alias) && alias != privateAlias) {
+		var list = $("#contentLeftTop");
 		var memberElement = document.createElement("div");
 		var avatarElement = document.createElement("div");
 		var aliasElement = document.createElement("span");
@@ -39,7 +39,7 @@ function createMemberElement(alias) {
 }
 
 function sendImage() {
-	var list = document.getElementById("listOfMessages");
+	var list = $("#listOfMessages");
 	var imgWidth = parseInt($("#imgWidth").val()) > 0 ? $("#imgWidth").val() : "200";
 	var imgHeight = parseInt($("#imgHeight").val()) > 0 ? $("#imgHeight").val() : "300";
 	var url = $("#valueImg").val();
@@ -57,7 +57,7 @@ function createImgElement(url, height, width) {
 }
 
 function getImage(url, height, width) {
-	var list = document.getElementById("listOfMessages");
+	var list = $("#listOfMessages");
 	list.appendChild(createImgElement(url, height, width));
 	list.appendChild(createBrElement());
 }

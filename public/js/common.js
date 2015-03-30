@@ -84,7 +84,6 @@ function sendMessage() {
 
 function getMessageACK(result) {
 	if(result.result) {
-		console.log(result);
 		var messageToAppend = isEncHTML(result.message.message) ? decHTMLifEnc(result.message.message) : result.message.message;
 		createMessageElement(null, messageToAppend, result.message.date);
 		$("#message").html("");
@@ -93,12 +92,10 @@ function getMessageACK(result) {
 }
 
 var getCode = function(message) {
-	console.log(message);
 	 hljs.highlightBlock(createMessageElement(message.alias, message.message, message.date));
 };
 
 var getCodeACK = function(message) {
-	console.log(message);
 	 hljs.highlightBlock(createMessageElement(null, message.message, message.date));
 };
 
@@ -146,4 +143,4 @@ function initDropZone(selector, hideAfter) {
 };
 
 hljs.initHighlighting();
-document.getElementById("sendMessage").addEventListener("click", sendMessage);
+$("#sendMessage").click(sendMessage);
