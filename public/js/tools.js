@@ -49,7 +49,6 @@ function detectAndCopyLink(domElement){
 	var textContent = domElement.textContent;
 	var extractedUrl = detectHttpLink(textContent)[0];
 	window.open(extractedUrl);
-
 } 
 
 /**
