@@ -19,11 +19,14 @@ var path = require("path");
 var LogManager = require('log-manager');
 var log = LogManager.getLogger();
 
-var listOfMessages = new FifoArray(conf.listOfMessagesSize);
+var historic = new FifoArray(conf.historicSize);
 var listOfUsers = new Array();
 
 var folderName = conf.folderName;
 
+function getSocketById(id) {
+	return io.sockets.connected[id];
+}
 
 function getDate() {
 	var now = new Date();
@@ -43,6 +46,7 @@ function sendListOfAlias(socket) {
 function sendCode(socket, code) {
 	var message = { message : code, alias: socket.alias, date : getDate()};
 	log.info(socket.alias);
+	historic.push({name : "code", value : message});
 	socket.broadcast.emit("code", message);
 	socket.emit("codeACK", message);
 }
@@ -57,7 +61,7 @@ function checkAndAddAlias(socket, alias) {
 			log.info(socket.alias);
 			socket.emit("aliasACK", {alias: alias, result: true});
 			var message = { message : alias + " joined", alias: alias, date : getDate()};
-			socket.broadcast.emit("message", {message: message, historique: false});
+			socket.broadcast.emit("message", message);
 			socket.broadcast.emit('join', socket.alias);
 			sendListOfAlias(socket);
 		} else {
@@ -69,9 +73,10 @@ function checkAndAddAlias(socket, alias) {
 	log.info("Vos alias :", listOfUsers);
 };
 
-function sendListOfMessages(socket) {
-	for (message in listOfMessages) {
-		socket.emit("message", {message: listOfMessages[message], historique: true});
+function sendHistoric(socket) {
+	for (event in historic) {
+		console.log(historic[event]);
+		socket.emit(historic[event].name, historic[event].value);
 	};
 };
 function connectionListner(socket) {
@@ -95,10 +100,10 @@ function connectionListner(socket) {
 				var alias = socket.alias;
 				log.info("message envoyé : ", validator.escape(message));
 				var message = { message : validator.escape(message), alias: alias, date : getDate()};
-				socket.broadcast.emit('message', {message: message, historique: false});
+				socket.broadcast.emit('message', message);
 				socket.emit('messageACK', {message: message, result: true});
-				listOfMessages.push(message);
-				log.info("historique", listOfMessages);
+				historic.push({name : "message", value : message});
+				log.info("historique", historic);
 			}
 		} else {
 			addAlias(socket, false, "Alias !!!!!");
@@ -123,13 +128,13 @@ function connectionListner(socket) {
 		sendCode(socket, code);
 	});
 
-	socket.on("historic", function () {sendListOfMessages(socket);});
+	socket.on("historic", function () {sendHistoric(socket);});
 	socket.on('disconnect', function() {
 		var index = listOfUsers.indexOf(socket.alias);
 		if(index >= 0) {
 			listOfUsers.splice(index, 1);
 			var message = { message : socket.alias + " left", alias: socket.alias, date : getDate()};
-			socket.broadcast.emit('message', {message: message, historique: false});
+			socket.broadcast.emit('message', message);
 			socket.broadcast.emit('left', socket.alias);
 	    	log.info(socket.alias, 'has left');
 		}
@@ -159,47 +164,55 @@ var chat = function(request, result){
 
 
 function sendFile(request, result) {
-	var myRequest = request;
-	var myResult = result;
-	 var form = new formidable.IncomingForm();
-    form.parse(myRequest, function(err, fields, files) {
-	log.info("upload started");
-      myResult.writeHead(200, {'content-type': 'text/plain'});
-      myResult.write('received upload:\n\n');
-      myResult.end(util.inspect({fields: fields, files: files}));
-    });
-    form.on('end', function (fields, files) {
-            /* Temporary location of our uploaded file */
-            var temp_path = this.openedFiles[0].path;
-            /* The file name of the uploaded file */
-            var file_name = this.openedFiles[0].name;
-            /* Location where we want to copy the uploaded file */
-            var new_location = path.join(__dirname, "public/" + folderName + "/");
-            fsExtra.copy(temp_path, new_location + file_name, function (err) {
-                if (err) {
-                    console.error(err);
-                } else {
-                    log.info("success!")
-                    fsExtra.remove(temp_path);
-                    io.sockets.emit("download", folderName + "/" + file_name, file_name, "test");
-                }
-            });
-        });
+	var requestCookie = request.headers.cookie
+	if(null != requestCookie) {
+		var cookies = cookie.parse(requestCookie);
+		log.info("cookie", cookies.socketID);
+		var socket = getSocketById(cookies.socketID);
+		if(null != socket && null != socket.alias) {
+			var myRequest = request;
+			var myResult = result;
+			 var form = new formidable.IncomingForm();
+		    form.parse(myRequest, function(err, fields, files) {
+			log.info("upload started");
+		      myResult.writeHead(200, {'content-type': 'text/plain'});
+		      myResult.write('received upload:\n\n');
+		      myResult.end(util.inspect({fields: fields, files: files}));
+		    });
+		    form.on('end', function (fields, files) {
+		            /* Temporary location of our uploaded file */
+		            var temp_path = this.openedFiles[0].path;
+		            /* The file name of the uploaded file */
+		            var file_name = this.openedFiles[0].name;
+		            /* Location where we want to copy the uploaded file */
+		            var new_location = path.join(__dirname, "public/" + folderName + "/");
+		            fsExtra.copy(temp_path, new_location + file_name, function (err) {
+		                if (err) {
+		                    console.error(err);
+		                } else {
+		                    log.info("success!")
+		                    fsExtra.remove(temp_path);
+		                    downloadValueWithAlias = {path : folderName + "/" , name : file_name , alias : socket.alias};
+		                    downloadValueWithoutAlias = {path : folderName + "/" , name : file_name , alias : null};
+		                    historic.push({name : "download", value : downloadValueWithAlias});
+		                    socket.broadcast.emit("download", downloadValueWithAlias);
+		                    socket.emit("downloadACK", downloadValueWithoutAlias);
+		                }
+		            });
+		        });
 
- 	form.on('error', function (fields, files) {
-     	log.info("Erreur lors du téléchargement");
-     });
-     form.on('progress', function(bytesReceived, bytesExpected) {
-        var percent_complete = (bytesReceived / bytesExpected) * 100;
-        log.info(percent_complete.toFixed(2));
-    });
-    return;
+		 	form.on('error', function (fields, files) {
+		     	log.info("Erreur lors du téléchargement");
+		     });
+		     form.on('progress', function(bytesReceived, bytesExpected) {
+		        var percent_complete = (bytesReceived / bytesExpected) * 100;
+		        log.info(percent_complete.toFixed(2));
+		    });
+		    return;
+    	}
+	}
 };
 
-function postSendFile(request, result){
-	result.setHeader("Content-Type", "text/html");
-	result.render("chat.ejs");
-};
 
 app.get("/", chat)
 .post("/", sendFile)

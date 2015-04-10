@@ -43,7 +43,6 @@ $( document ).ready(function() {
 	initDropZone(".imgUploadFile form");	
 });
 
-getFile = function(message) {}
 createMemberElement  = function(message) {}
 removeMemberElement  = function(message) {}
 

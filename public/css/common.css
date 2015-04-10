@@ -21,3 +21,11 @@
 .backgroundSendCode {
 	background : url(../images/button_send-97x46.png);
 }
+
+.content .download {
+	width: 24px;
+	height: 24px;
+	background-image: url('../images/download.svg');
+	line-height: 24px;
+	display: inline-block;
+}

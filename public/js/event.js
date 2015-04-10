@@ -3,6 +3,7 @@ socket.on('messageACK', getMessageACK);
 socket.on('image', getImage);
 socket.on("alias", showAliasForm);
 socket.on("download", getFile);
+socket.on("downloadACK", getFile);
 socket.on("aliasACK", getAliasACK);
 socket.on("join", createMemberElement);
 socket.on("left", removeMemberElement);

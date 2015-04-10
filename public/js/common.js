@@ -1,5 +1,4 @@
 var socket = io.connect(window.location.host);
-
 var xmlnsSvg = "http://www.w3.org/2000/svg";
 //variables de configuration client
 var notificationVolume;
@@ -24,7 +23,7 @@ function createPolygonElement(points, style) {
 	lineElement.setAttribute("style", style);
 	return lineElement;
 }
-function createMessageElement(alias, message, date) {
+function createMessageElement(alias, message, date, isDownload) {
 	var list = document.getElementById("listOfMessages");
 	var messageClass = (null == alias) ? 'fromMe' : 'notFromMe';
 	var myAlias = (null == alias) ? 'You' : alias;
@@ -48,17 +47,28 @@ function createMessageElement(alias, message, date) {
 	aliasSpan.innerHTML = myAlias;
 	aliasElement.appendChild(aliasSpan);
 	contentElement.setAttribute("class", "content");
-	contentElement.innerHTML = message; 
+	if(isDownload) {
+		contentElement.appendChild(createDownloadImage());
+		contentElement.appendChild(message);
+	} else {
+		contentElement.innerHTML = message;
+		contentElement.addEventListener("click",function (){
+		detectAndCopyLink(this);
+	});
+	}
 	messageElement.appendChild(aliasElement);
 	messageElement.appendChild(contentElement);
 	list.appendChild(messageElement);
 	list.appendChild(createBrElement());
-	contentElement.addEventListener("click",function (){
-		detectAndCopyLink(this);
-	});
 	return messageElement;
 };
 
+function createDownloadImage() {
+	var svgElement = document.createElement("div")
+	svgElement.setAttribute("class","download");
+	svgElement.innerHTML="&nbsp;"
+	return svgElement;
+}
 function sendAlias() {
 	var alias = $('#txtAlias').val();
 	if('' != alias) {
@@ -92,9 +102,9 @@ function getMessageACK(result) {
 	}
 }
 
-var getCode = function(message) {
-	console.log(message);
-	 hljs.highlightBlock(createMessageElement(message.alias, message.message, message.date));
+var getCode = function(result) {
+	console.log(result);
+	 hljs.highlightBlock(createMessageElement(result.alias, result.message, result.date));
 };
 
 var getCodeACK = function(message) {
@@ -103,8 +113,8 @@ var getCodeACK = function(message) {
 };
 
 var getMessage = function(result) {
-	var messageToAppend = isEncHTML(result.message.message) ? decHTMLifEnc(result.message.message) : result.message.message;
-	createMessageElement(result.message.alias, messageToAppend, result.message.date);
+	var messageToAppend = isEncHTML(result.message) ? decHTMLifEnc(result.message) : result.message;
+	createMessageElement(result.alias, messageToAppend, result.date);
 	$('#listOfMessages').scrollTop($('#listOfMessages')[0].scrollHeight);
 	if(!result.historique && notificationActivated){
 		var sound = new Howl({
@@ -144,6 +154,23 @@ function initDropZone(selector, hideAfter) {
 		}
 	);
 };
+function setSocketIdCookie() {
+	cookiesManager.createCookie("socketID", socket.id);
+};
+
+
+function getFile(result) {
+	var link = document.createElement("a");
+	link.setAttribute("id", "download_" + result.name);
+	link.setAttribute("download", result.name);
+	link.setAttribute("href", result.path + result.name);
+	link.innerHTML = result.name;
+	createMessageElement(result.alias, link, null, true);
+	console.log(result.path, result.name, result.alias);
+};
+
+socket.addEventListener("connect", setSocketIdCookie);
+socket.addEventListener("reconnect", setSocketIdCookie);
 
 hljs.initHighlighting();
 document.getElementById("sendMessage").addEventListener("click", sendMessage);
