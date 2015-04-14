@@ -1,13 +1,13 @@
 getImage = function(message) {}
 showAliasForm = function(e) {
-	$("#aliasPopin").setAttribute("class", "");
-	$("#mask").setAttribute("class", "");
+	$("#aliasPopin").attr("class", "");
+	$("#mask").attr("class", "");
 	if(null != e && null != e.toElement && "myAlias" == e.toElement.parentNode.id) {
-		$("#myAlias").removeEventListener("click", showAliasForm);
-	$("#myAlias").addEventListener("click", closeAliasForm);
+		$("#myAlias").unbind( "click" );
+	$("#myAlias").click(closeAliasForm());
 	return;
 	} 
-	$("#write").setAttribute("class", "hidden");
+	$("#write").addClass("hidden");
 	
 };
 closeAliasForm = function(e) {
@@ -27,12 +27,12 @@ closeAliasForm = function(e) {
 };
 showOrHideMenu = function () {
 	var menuElement = $("#menu");
-	var classAttribute = menuElement.getAttribute("class");
+	var classAttribute = menuElement.attr('class');
 	if("hidden" == classAttribute || "hiddenMenu" == classAttribute) {
-		menuElement.setAttribute("class", "notHidden");
+		menuElement.attr("class", "notHidden");
 		return;
 	}
-	menuElement.setAttribute("class", "hiddenMenu");
+	menuElement.attr("class", "hiddenMenu");
 };
 
 $( document ).load(function() {
@@ -48,4 +48,4 @@ removeMemberElement  = function(message) {}
 
 $('#sendAlias').click(sendAlias);
 $('#showMenu').click(showOrHideMenu);
-$("#myAlias").addEventListener("click", showAliasForm);
+$("#myAlias").click(showAliasForm());
