@@ -48,4 +48,4 @@ removeMemberElement  = function(message) {}
 
 $('#sendAlias').click(sendAlias);
 $('#showMenu').click(showOrHideMenu);
-$("#myAlias").click(showAliasForm());
+$("#myAlias").click(showAliasForm);

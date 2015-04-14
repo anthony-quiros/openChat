@@ -151,8 +151,10 @@ svg.bubble {
 	position: absolute;
 	top: 34px;
 	padding: 5px;
-	margin-left: -200px;
+	margin-left: -38vw;
 	z-index: 100;
+	max-width: 35vw;
+	word-wrap: break-word
 }
 div#menu.notHidden {
 	animation-duration: 2s;
@@ -192,7 +194,7 @@ div#menu.hiddenMenu {
 
  @-moz-keyframes leftTopRight {
   0% {
-    margin-left: -200px;
+    margin-left: -38vw;
   }
   
   100% {
@@ -202,7 +204,7 @@ div#menu.hiddenMenu {
 
 @-webkit-keyframes leftTopRight {
   0% {
-    margin-left: -200px;
+    margin-left: -38vw;
   }
   
   100% {
@@ -215,7 +217,7 @@ div#menu.hiddenMenu {
     margin-left:0%;
   }
 	100% {
-   margin-left: -200px;
+   margin-left: -38vw;
   }
 }
 
@@ -224,7 +226,7 @@ div#menu.hiddenMenu {
     margin-left:0%;
   }
 	100% {
-    margin-left: -200px;
+    margin-left: -38vw;
   }
 }
 
