@@ -1,27 +1,20 @@
 var express = require("express");
 var app = express();
-var server = require('http').Server(app); 
 var io = require('socket.io')(server);
 var cookie = require('cookie');
 var bodyParser = require('body-parser');
-
 var validator = require("validator");
-
-var fs  = require('fs');
 var conf = require("json-config-manager").requireModule();
-
 var FifoArray = require("fifo-array");
+var fs = require('fs');
 var formidable = require('formidable');
 var fsExtra   = require('fs-extra');
 var util = require('util');
 var path = require("path");
-
 var LogManager = require('log-manager');
 var log = LogManager.getLogger();
-
 var historic = new FifoArray(conf.historicSize);
 var listOfUsers = new Array();
-
 var folderName = conf.folderName;
 
 function getSocketById(id) {
@@ -94,6 +87,7 @@ function connectionListner(socket) {
 	}
 
 	log.info('New connection from :', socket.handshake.address);
+
 	socket.on('message', function (message) {
 		if(socket.alias) {
 			if(null != message && '' != message) {
@@ -161,7 +155,23 @@ var chat = function(request, result){
 	}
 };
 
+function getFiles (dir, files_){
+    files_ = files_ || [];
+    var files = fs.readdirSync(dir);
+    for (var i in files){
+        var name = dir + '/' + files[i];
+        if (fs.statSync(name).isDirectory()){
+            getFiles(name, files_);
+        } else {
+            files_.push(name);
+        }
+    }
+    return files_;
+}
 
+function strEndsWith(str, suffix) {
+    return str.match(suffix+"$")==suffix;
+}
 
 function sendFile(request, result) {
 	var requestCookie = request.headers.cookie
@@ -218,4 +228,34 @@ app.get("/", chat)
 .post("/", sendFile)
 .use(notExist)
 log.info("PORT : ", conf.port);
+
+var server;
+var cert;
+var key;
+var sslFiles = getFiles('./config/ssl');
+	for(var i in sslFiles){
+		if(strEndsWith(sslFiles[i], ".crt")){
+			cert = sslFiles[i];
+		}
+		if(strEndsWith(sslFiles[i], ".pem")){
+			key = sslFiles[i];
+		}
+	}
+	log.info("CERT : ", cert);
+	log.info("KEY : ", key);
+	if(sslFiles.length == 0){
+		server = require('http').Server(app); 
+		log.info("Chat initialisé en http");
+	}
+	else{
+		var key_file   = "./config/ssl/file.pem";
+		var cert_file  = "./config/ssl/file.crt";
+		var options	= {
+	  		key: fs.readFileSync(key_file),
+	 		cert: fs.readFileSync(cert_file)
+		};
+		log.info("Chat initialisé en https");
+		server = require('https').createServer(options, app);	
+	}
+
 server.listen(conf.port);
