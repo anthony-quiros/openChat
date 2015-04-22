@@ -155,18 +155,29 @@ var chat = function(request, result){
 	}
 };
 
+/*
+Permet d'obtenir un tableau contenant les noms des fichiers contenus dans un repertoire.
+Cette fonction renvoie vide si un erreur est rencontrée ou si le repertoire est vide.
+*/
 function getFiles (dir, files_){
-    files_ = files_ || [];
-    var files = fs.readdirSync(dir);
-    for (var i in files){
-        var name = dir + '/' + files[i];
-        if (fs.statSync(name).isDirectory()){
-            getFiles(name, files_);
-        } else {
-            files_.push(name);
-        }
+	try{
+		files_ = files_ || [];
+	    var files = fs.readdirSync(dir);
+	    for (var i in files){
+	        var name = dir + '/' + files[i];
+	        if (fs.statSync(name).isDirectory()){
+	            getFiles(name, files_);
+	        } else {
+	            files_.push(name);
+	        }
+	    }
+	    return files_;
+		}
+    catch(error){
+    	log.error("Erreur lors de la lecture du dossier contenant la clé et le certificat");
+    	return files_ || [];
     }
-    return files_;
+    
 }
 
 function strEndsWith(str, suffix) {
@@ -236,13 +247,14 @@ var sslFiles = getFiles('./config/ssl');
 	for(var i in sslFiles){
 		if(strEndsWith(sslFiles[i], ".crt")){
 			cert = sslFiles[i];
+			log.info("CERT : ", cert);
 		}
 		if(strEndsWith(sslFiles[i], ".pem")){
 			key = sslFiles[i];
+			log.info("KEY : ", key);
 		}
 	}
-	log.info("CERT : ", cert);
-	log.info("KEY : ", key);
+
 	if(sslFiles.length == 0){
 		server = require('http').Server(app); 
 		log.info("Chat initialisé en http");
