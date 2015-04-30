@@ -1,6 +1,5 @@
 var express = require("express");
 var app = express();
-var io = require('socket.io')(server);
 var cookie = require('cookie');
 var bodyParser = require('body-parser');
 var validator = require("validator");
@@ -135,9 +134,6 @@ function connectionListner(socket) {
    });
 };
 
-io.sockets.on('connection', connectionListner);
-app.use(express.static(__dirname + '/public'));
-
 var notExist = function(request, result) {
 	result.setHeader("Content-Type", "text/plain");
 	result.end("Not Found !");
@@ -234,12 +230,6 @@ function sendFile(request, result) {
 	}
 };
 
-
-app.get("/", chat)
-.post("/", sendFile)
-.use(notExist)
-log.info("PORT : ", conf.port);
-
 var server;
 var cert;
 var key;
@@ -256,7 +246,7 @@ var sslFiles = getFiles('./config/ssl');
 	}
 
 	if(sslFiles.length == 0){
-		server = require('http').Server(app); 
+		server = require('http').createServer(app); 
 		log.info("Chat initialisé en http");
 	}
 	else{
@@ -269,5 +259,14 @@ var sslFiles = getFiles('./config/ssl');
 		log.info("Chat initialisé en https");
 		server = require('https').createServer(options, app);	
 	}
+
+var io = require('socket.io')(server);
+io.sockets.on('connection', connectionListner);
+app.use(express.static(__dirname + '/public'));
+
+app.get("/", chat)
+.post("/", sendFile)
+.use(notExist)
+log.info("PORT : ", conf.port);
 
 server.listen(conf.port);
