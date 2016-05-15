@@ -38,6 +38,10 @@
     "code",
     "highlighting"
   ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "start": "node server.js"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/AntSoft/openChat/issues"
