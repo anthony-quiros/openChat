@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/anthony-quiros/openChat.svg?branch=master)](https://travis-ci.org/anthony-quiros/openChat)
 # openChat
-OpenChat is a web application based on nodeJS.
+OpenChatss is a web application based on nodeJS.
 It was initially meant to send snippets of code and small files the easiest & fastest way.
 
 
